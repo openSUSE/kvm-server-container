@@ -1,0 +1,31 @@
+[Unit]
+Description=Virtualization nodedev daemon
+Conflicts=libvirtd.service virtnodedev.socket virtnodedev-ro.socket virtnodedev-admin.socket
+Requires=container-virtnodedevd.socket
+Requires=container-virtnodedevd-ro.socket
+Requires=container-virtnodedevd-admin.socket
+After=network.target
+After=dbus.service
+After=apparmor.service
+After=local-fs.target
+After=container-virtqemud.service
+BindsTo=container-virtqemud.service
+Documentation=man:virtnodedevd(8)
+Documentation=https://libvirt.org
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=VIRTNODEDEVD_ARGS="--timeout 120"
+Environment=CONTAINER_NAME=kvm-container
+EnvironmentFile=-/etc/sysconfig/container-virtnodedevd
+EnvironmentFile=-/etc/default/container-kvm
+ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtnodedevd $VIRTNODEDEVD_ARGS
+ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Also=container-virtnodedevd.socket
+Also=container-virtnodedevd-ro.socket
+Also=container-virtnodedevd-admin.socket

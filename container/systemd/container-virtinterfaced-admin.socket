@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt interface admin socket
+Before=container-virtinterfaced.service
+BindsTo=container-virtinterfaced.socket
+After=container-virtinterfaced.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtinterfaced-admin-sock
+Service=container-virtinterfaced.service
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target

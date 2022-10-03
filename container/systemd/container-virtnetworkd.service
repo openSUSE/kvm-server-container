@@ -1,0 +1,35 @@
+[Unit]
+Description=Virtualization network daemon
+Conflicts=libvirtd.service virt-networkd.socket virt-networkd-ro.socket virt-networkd-admin.socket
+Requires=container-virtnetworkd.socket
+Requires=container-virtnetworkd-ro.socket
+Requires=container-virtnetworkd-admin.socket
+After=network.target
+After=firewalld.service
+After=iptables.service
+After=ip6tables.service
+After=dbus.service
+After=apparmor.service
+After=local-fs.target
+After=container-virtqemud.service
+BindsTo=container-virtqemud.service
+Documentation=man:virtnetworkd(8)
+Documentation=https://libvirt.org
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=VIRTNETWORKD_ARGS="--timeout 120"
+Environment=CONTAINER_NAME=kvm-container
+EnvironmentFile=-/etc/default/container-kvm
+EnvironmentFile=-/etc/sysconfig/container-virtnetworkd
+ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtnetworkd $VIRTNETWORKD_ARGS
+ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
+Restart=on-failure
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+Also=container-virtnetworkd.socket
+Also=container-virtnetworkd-ro.socket
+Also=container-virtnetworkd-admin.socket

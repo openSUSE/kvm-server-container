@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt network local read-only socket
+Before=container-virtnetworkd.service
+BindsTo=container-virtnetworkd.socket
+After=container-virtnetworkd.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnetworkd-sock-ro
+Service=container-virtnetworkd.service
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target

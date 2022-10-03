@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt nodedev admin socket
+Before=container-virtnodedevd.service
+BindsTo=container-virtnodedevd.socket
+After=container-virtnodedevd.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnodedevd-admin-sock
+Service=container-virtnodedevd.service
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target

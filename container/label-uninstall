@@ -1,0 +1,35 @@
+#!/bin/sh -eu
+
+# This is the uninstall script for kvm when run in a privileged
+# container.
+
+CONTAINER=kvm
+cd /
+PATH="/usr/bin:/usr/sbin"
+
+if [ ! -d /host/etc ] || [ ! -d /host/usr/local/bin ]; then
+    echo "${CONTAINER}-uninstall: host file system is not mounted at /host"
+    exit 1
+fi
+
+delete_file() {
+PATH=$1
+FILE=$2
+if [ ! -z "${PATH}/${FILE}" ]; then
+	if [ ! -e "${PATH}/${FILE}" ]; then
+		echo "${FILE} not present, nothing to remove"
+	else
+		/usr/bin/rm -vf ${PATH}/${FILE}
+	fi
+fi
+}
+
+# removing installed files
+echo "LABEL UNINSTALL: Removing all files"
+delete_file /host/etc ${CONTAINER}-container.conf 
+delete_file /host/etc ${CONTAINER}-container-functions
+delete_file /host/usr/local/bin ${CONTAINER}-container-manage.sh
+delete_file /host/usr/local/bin virsh.sh
+delete_file /host/usr/local/bin virt-install-demo.sh
+delete_file /host/usr/local/bin virt-install
+delete_file /host/usr/local/bin virt-manager.sh

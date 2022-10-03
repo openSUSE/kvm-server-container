@@ -1,0 +1,10 @@
+[Unit]
+Description=Virtual machine log manager socket
+Before=container-virtqemud.service
+
+[Socket]
+ListenStream=/run/libvirt/container-virtlogd-sock
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target

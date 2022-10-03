@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt proxy admin socket
+Before=container-virtproxyd.service
+BindsTo=container-virtproxyd.socket
+After=container-virtproxyd.socket
+Conflicts=libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
+
+[Socket]
+ListenStream=/run/libvirt/libvirt-admin-sock
+Service=container-virtproxyd.service
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target

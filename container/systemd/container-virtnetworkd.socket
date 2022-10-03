@@ -1,0 +1,13 @@
+[Unit]
+Description=Libvirt network local socket
+Before=container-virtnetworkd.service
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnetworkd-sock
+Service=container-virtnetworkd.service
+SocketMode=0666
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

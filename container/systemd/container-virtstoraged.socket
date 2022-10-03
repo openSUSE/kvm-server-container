@@ -1,0 +1,13 @@
+[Unit]
+Description=Libvirt storage local socket
+Before=container-virtstoraged.service
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtstoraged-sock
+Service=container-virtstoraged.service
+SocketMode=0666
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+if [ -f /etc/kvm-container-functions ] ; then
+    . /etc/kvm-container-functions
+elif [ -f `pwd`/kvm-container-functions ]; then
+    echo "Found local version of kvm-container-functions"
+    export CONF="`pwd`/kvm-container.conf"
+    . "`pwd`/kvm-container-functions"
+else
+    echo "! need /etc/kvm-container-functions; Exiting";
+    exit 1
+fi
+check_load_config_file
+
+set -euxo pipefail
+
+# Run the domain
+cat <<EOF
+
+ !! WARNING !!
+
+ This is wrapper script to execute virt-install inside the ${CONTAINER_NAME} container
+
+ You must put all images/ISO in the 
+ $DATA 
+ path to be able to access it.
+
+EOF
+sleep 1
+podman exec -ti ${CONTAINER_NAME} virt-install $@

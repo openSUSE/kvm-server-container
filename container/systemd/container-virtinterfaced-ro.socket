@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt interface local read-only socket
+Before=container-virtinterfaced.service
+BindsTo=container-virtinterfaced.socket
+After=container-virtinterfaced.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtinterfaced-sock-ro
+Service=container-virtinterfaced.service
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target

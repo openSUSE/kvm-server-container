@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt qemu local read-only socket
+Before=container-virtqemud.service
+BindsTo=container-virtqemud.socket
+After=container-virtqemud.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtqemud-sock-ro
+Service=container-virtqemud.service
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target

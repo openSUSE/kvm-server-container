@@ -1,0 +1,31 @@
+[Unit]
+Description=Virtualization nwfilter daemon
+Conflicts=libvirtd.service virtnwfilterd.socket virtnwfilterd-ro.socket virtnwfilterd-admin.socket
+Requires=container-virtnwfilterd.socket
+Requires=container-virtnwfilterd-ro.socket
+Requires=container-virtnwfilterd-admin.socket
+After=network.target
+After=dbus.service
+After=apparmor.service
+After=local-fs.target
+After=container-virtqemud.service
+BindsTo=container-virtqemud.service
+Documentation=man:virtnwfilterd(8)
+Documentation=https://libvirt.org
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=VIRTNWFILTERD_ARGS="--timeout 120"
+Environment=CONTAINER_NAME=kvm-container
+EnvironmentFile=-/etc/sysconfig/container-virtnwfilterd
+EnvironmentFile=-/etc/default/container-kvm
+ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtnwfilterd $VIRTNWFILTERD_ARGS
+ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Also=container-virtnwfilterd.socket
+Also=container-virtnwfilterd-ro.socket
+Also=container-virtnwfilterd-admin.socket

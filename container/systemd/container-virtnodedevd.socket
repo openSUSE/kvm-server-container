@@ -1,0 +1,13 @@
+[Unit]
+Description=Libvirt nodedev local socket
+Before=container-virtnodedevd.service
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnodedevd-sock
+Service=container-virtnodedevd.service
+SocketMode=0666
+RemoveOnStop=yes
+
+[Install]
+WantedBy=sockets.target

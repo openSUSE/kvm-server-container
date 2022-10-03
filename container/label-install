@@ -1,0 +1,49 @@
+#!/bin/sh -eu
+# This is the install script for kvm when run in a privileged
+# container.
+
+cd /
+PATH="/usr/bin:/usr/sbin"
+CONTAINER=kvm-container
+# ETC
+MAINFON=${CONTAINER}-functions
+MAINCONF=${CONTAINER}.conf
+# BIN
+VIRSHSCRIPT=virsh.sh
+MANAGESCRIPT=${CONTAINER}-manage.sh
+VIRTINSTALLDEMO=virt-install-demo.sh
+VIRTINSTALL=virt-install
+VIRTMANAGER=virt-manager.sh
+
+echo "LABEL INSTALL"
+# ensure all scripts will be present on the host 
+copy_to_usr_local_bin() {
+SCRIPT=$1
+if [ ! -e /host/usr/local/bin/${SCRIPT} ]; then
+        echo "copy /container/${SCRIPT} in /host/usr/local/bin/"
+        cp -av /container/${SCRIPT} /host/usr/local/bin/
+else
+        echo "/host/usr/local/bin/${SCRIPT} already exist, will not update it"
+fi
+}
+
+copy_to_etc() {
+CONF=$1
+if [ ! -e /host/etc/${CONF} ]; then
+	echo "copy /container/${CONF} in /host/etc/"
+	cp -av /container/${CONF} /host/etc/
+else
+	echo "/host/etc/${CONF} already exist, will not update it"
+fi
+}
+
+## MAIN
+copy_to_etc ${MAINCONF}
+copy_to_etc ${MAINFON}
+copy_to_usr_local_bin ${VIRTINSTALLDEMO}
+copy_to_usr_local_bin ${MANAGESCRIPT}
+copy_to_usr_local_bin ${VIRSHSCRIPT}
+copy_to_usr_local_bin ${VIRTINSTALL}
+copy_to_usr_local_bin ${VIRTMANAGER}
+cd /host/usr/local/bin/
+ln -sf virt-install-demo.sh virt-install.sh

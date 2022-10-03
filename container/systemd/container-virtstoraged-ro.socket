@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt storage local read-only socket
+Before=container-virtstoraged.service
+BindsTo=container-virtstoraged.socket
+After=container-virtstoraged.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtstoraged-sock-ro
+Service=container-virtstoraged.service
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target

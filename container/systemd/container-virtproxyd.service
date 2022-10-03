@@ -1,0 +1,31 @@
+[Unit]
+Description=Virtualization daemon
+Conflicts=libvirtd.service virtproxyd.socket virtproxyd-ro.socket virtproxyd-admin.socket
+Requires=container-virtproxyd.socket
+Requires=container-virtproxyd-ro.socket
+Requires=container-virtproxyd-admin.socket
+After=network.target
+After=dbus.service
+After=apparmor.service
+After=local-fs.target
+After=container-virtqemud.service
+BindsTo=container-virtqemud.service
+Documentation=man:virtproxyd(8)
+Documentation=https://libvirt.org
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=VIRTPROXYD_ARGS="--timeout 120"
+Environment=CONTAINER_NAME=kvm-container
+EnvironmentFile=-/etc/sysconfig/container-virtproxyd
+EnvironmentFile=-/etc/default/container-kvm
+ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtproxyd $VIRTPROXYD_ARGS
+ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+Also=container-virtproxyd.socket
+Also=container-virtproxyd-ro.socket
+Also=container-virtproxyd-admin.socket

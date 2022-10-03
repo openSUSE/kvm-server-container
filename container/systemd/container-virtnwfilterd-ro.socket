@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt nwfilter local read-only socket
+Before=container-virtnwfilterd.service
+BindsTo=container-virtnwfilterd.socket
+After=container-virtnwfilterd.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnwfilterd-sock-ro
+Service=container-virtnwfilterd.service
+SocketMode=0666
+
+[Install]
+WantedBy=sockets.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=Libvirt network admin socket
+Before=container-virtnetworkd.service
+BindsTo=container-virtnetworkd.socket
+After=container-virtnetworkd.socket
+
+
+[Socket]
+ListenStream=/run/libvirt/container-virtnetworkd-admin-sock
+Service=container-virtnetworkd.service
+SocketMode=0600
+
+[Install]
+WantedBy=sockets.target
