@@ -22,14 +22,12 @@ Documentation=https://libvirt.org
 Type=notify
 NotifyAccess=all
 Environment=VIRTQEMUD_ARGS="--timeout 120"
-Environment=KVM_CON_IMAGE_PATH=registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest
+Environment=IMAGE=registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest
 Environment=CONTAINER_NAME=kvm-container
-Environment=CONFIG_DIR=/etc/libvirt
 EnvironmentFile=-/etc/sysconfig/container-virtqemud
-EnvironmentFile=-/etc/default/container-kvm
-ExecStartPre=/usr/bin/mkdir -p ${CONFIG_DIR}
+EnvironmentFile=-/host/etc/kvm-container.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
-ExecStartPre=-/usr/bin/podman pull ${KVM_CON_IMAGE_PATH}
+ExecStartPre=-/usr/bin/podman pull ${IMAGE}
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon ${PODMAN_EXTRA_ARGS} ${PODMAN_DEFAULT_ARGS} /usr/sbin/virtqemud $VIRTQEMUD_ARGS
 ExecStartPost=-/usr/bin/podman network reload -a
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/%n.ctr-id -t 10

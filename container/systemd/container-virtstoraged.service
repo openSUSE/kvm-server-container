@@ -21,7 +21,7 @@ NotifyAccess=all
 Environment=VIRTSTORAGED_ARGS="--timeout 120"
 Environment=CONTAINER_NAME=kvm-container
 EnvironmentFile=-/etc/sysconfig/container-virtstoraged
-EnvironmentFile=-/etc/default/container-kvm
+EnvironmentFile=-/host/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtstoraged $VIRTSTORAGED_ARGS
 ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
 Restart=on-failure

@@ -21,7 +21,7 @@ Type=notify
 NotifyAccess=all
 Environment=VIRTNETWORKD_ARGS="--timeout 120"
 Environment=CONTAINER_NAME=kvm-container
-EnvironmentFile=-/etc/default/container-kvm
+EnvironmentFile=-/host/etc/kvm-container.conf
 EnvironmentFile=-/etc/sysconfig/container-virtnetworkd
 ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtnetworkd $VIRTNETWORKD_ARGS
 ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID

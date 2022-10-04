@@ -11,7 +11,7 @@ Documentation=https://libvirt.org
 Environment=VIRTLOGD_ARGS=""
 Environment=CONTAINER_NAME=kvm-container
 EnvironmentFile=-/etc/sysconfig/container-virtlogd
-EnvironmentFile=-/etc/default/container-kvm
+EnvironmentFile=-/host/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtlogd $VIRTLOGD_ARGS
 ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -USR1 $MAINPID
 # Losing the logs is a really bad thing that will

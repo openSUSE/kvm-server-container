@@ -19,7 +19,7 @@ NotifyAccess=all
 Environment=VIRTNODEDEVD_ARGS="--timeout 120"
 Environment=CONTAINER_NAME=kvm-container
 EnvironmentFile=-/etc/sysconfig/container-virtnodedevd
-EnvironmentFile=-/etc/default/container-kvm
+EnvironmentFile=-/host/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /usr/sbin/virtnodedevd $VIRTNODEDEVD_ARGS
 ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
 Restart=on-failure
