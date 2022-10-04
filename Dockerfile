@@ -56,6 +56,7 @@ RUN zypper install --no-recommends -y \
               timezone \
               vim-small \
               virt-install \
+              shadow \
   && zypper clean --all
 
 #  && rm -rf /usr/share/doc/ \

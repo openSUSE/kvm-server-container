@@ -51,7 +51,9 @@ if [ ! -z "$2" ];then
 fi
 
 
-
+if [ ! -e /etc/passwd ]; then
+   touch /etc/passwd
+fi
 TEST=`grep tester /etc/passwd`
 if [ -z "$TEST" ]; then
     create_user
@@ -59,6 +61,10 @@ else
     echo "User already present, skipping..."
 fi
 
+if [ ! -e /etc/ssh/sshd_config ]; then
+   mkdir -p /etc/ssh
+   touch /etc/ssh/sshd_config
+fi
 TEST=`grep 16022 /etc/ssh/sshd_config`
 if [ -z "$TEST" ]; then
     configure_ssh
@@ -76,6 +82,7 @@ fi
 
 LIBVIRTNET="/etc/libvirt/qemu/networks/sle_network.xml"
 if [ ! -f ${LIBVIRTNET} ]; then
+   ip link delete virbr0
 # create a sle_network for the VM
 # PLEASE use virbr0 or adjust kvm-container.conf
     cat > ${LIBVIRTNET} <<EOF
