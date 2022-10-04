@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/bash
 # This is the install script for kvm when run in a privileged
 # container.
 
@@ -14,13 +14,13 @@ MANAGESCRIPT=${CONTAINER}-manage.sh
 VIRTINSTALLDEMO=virt-install-demo.sh
 VIRTINSTALL=virt-install
 VIRTMANAGER=virt-manager.sh
+HOSTSERVICE=host_service
 
 echo "LABEL INSTALL"
 # ensure all scripts will be present on the host 
 copy_to_usr_local_bin() {
 SCRIPT=$1
 if [ ! -e /host/usr/local/bin/${SCRIPT} ]; then
-        echo "copy /container/${SCRIPT} in /host/usr/local/bin/"
         cp -av /container/${SCRIPT} /host/usr/local/bin/
 else
         echo "/host/usr/local/bin/${SCRIPT} already exist, will not update it"
@@ -30,11 +30,18 @@ fi
 copy_to_etc() {
 CONF=$1
 if [ ! -e /host/etc/${CONF} ]; then
-	echo "copy /container/${CONF} in /host/etc/"
 	cp -av /container/${CONF} /host/etc/
 else
 	echo "/host/etc/${CONF} already exist, will not update it"
 fi
+}
+
+copy_systemd_units() {
+   # Create systemd directory if not present
+   if [ ! -e /host/etc/systemd/system ]; then
+      mkdir -p /host/etc/systemd/system
+   fi
+   cp -av /container/systemd/* /host/etc/systemd/system/
 }
 
 ## MAIN
@@ -45,5 +52,7 @@ copy_to_usr_local_bin ${MANAGESCRIPT}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${VIRTMANAGER}
+copy_to_usr_local_bin ${HOSTSERVICE}
+copy_systemd_units
 cd /host/usr/local/bin/
 ln -sf virt-install-demo.sh virt-install.sh

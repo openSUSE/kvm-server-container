@@ -1,4 +1,4 @@
-#!/bin/sh -eu
+#!/bin/bash
 
 # This is the uninstall script for kvm when run in a privileged
 # container.
@@ -33,3 +33,10 @@ delete_file /host/usr/local/bin virsh.sh
 delete_file /host/usr/local/bin virt-install-demo.sh
 delete_file /host/usr/local/bin virt-install
 delete_file /host/usr/local/bin virt-manager.sh
+delete_file /host/usr/local/bin host_service
+
+# Remove systemd unit files from host
+for drv in ( qemu interface network nodedev nwfilter proxy secret storage ); do
+   delete_file /host/etc/systemd/system virt${drv}d.service
+   delete_file /host/etc/systemd/system virt${drv}d{,-ro,-admin}.socket
+done

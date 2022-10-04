@@ -12,8 +12,8 @@ ENV VIRT_RUN_LABEL="/usr/bin/podman run --privileged --replace --rm -ti --pid=ho
 	-v /etc/machine-id:/etc/machine-id:ro \
         -e TERM"
 
-LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install"
-LABEL UNINSTALL="/usr/bin/podman run --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
+LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install && /usr/local/bin/host_service enable"
+LABEL UNINSTALL="/usr/local/bin/host_service disable && /usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
 LABEL VIRT-MANAGER="$VIRT_RUN_LABEL --name virt-manager -e DISPLAY -e XAUTHORITY -e XAUTHLOCALHOSTNAME IMAGE /bin/bash /container/virt-manager"
 # Mandatory labels for the build service:
 #   https://en.opensuse.org/Building_derived_containers
@@ -72,7 +72,7 @@ RUN echo -e 'unix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-manage.sh,virsh.sh,virt-install,virt-install-demo.sh,virt-manager.sh,virt-manager,label-install,label-uninstall}
+RUN chmod +x /container/{kvm-container-manage.sh,virsh.sh,virt-install,virt-install-demo.sh,virt-manager.sh,virt-manager,label-install,label-uninstall,host_service}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

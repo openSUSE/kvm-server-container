@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ "$1" = "enable" ]; then
+   # Disable the libvirtd monolithic daemon if present
+   systemctl stop libvirtd.service
+   systemctl stop libvirtd{,-ro,-admin,-tcp,-tls}.socket
+   systemctl mask libvirtd.service
+   systemctl mask libvirtd{,-ro,-admin,-tcp,-tls}.socket
+   echo "Stopping libvirtd.service"
+
+   # Enable modular libvirt daemons on the host
+   for drv in ( qemu interface network nodedev nwfilter proxy secret storage ); do
+      systemctl unmask virt${drv}d.service
+      systemctl unmask virt${drv}d{,-ro,-admin}.socket
+      systemctl enable virt${drv}d.service
+      systemctl enable virt${drv}d{,-ro,-admin}.socket
+      systemctl start virt${drv}d{,-ro,-admin}.socket
+      echo "Starting virt${drv}d.service"
+   done
+elif [ "$1" = "disable" ]; then
+   # Disable modular libvirt daemons on the host
+   for drv in ( qemu interface network nodedev nwfilter proxy secret storage ); do
+      systemctl stop virt${drv}d.service
+      systemctl stop virt${drv}d{,-ro,-admin}.socket
+      systemctl mask virt${drv}d.service
+      systemctl mask virt${drv}d{,-ro,-admin}.socket
+      echo "Disabling virt${drv}d.service
+   done
+else
+   echo "host_service: Unknown command \"$1\""
+fi
