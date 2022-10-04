@@ -6,11 +6,11 @@
 
 FROM opensuse/tumbleweed
 
-ENV VIRT_RUN_LABEL="/usr/bin/podman run --privileged --replace --rm -ti --pid=host --ipc=host --net=host \
+ENV VIRT_RUN_LABEL="/usr/bin/podman run --rm -ti --pid=host --ipc=host --net=host \
 	-v /tmp/.X11-unix:/tmp/.X11-unix:ro \
 	-v /root/.Xauthority:/tmp/.Xauthority:ro \
-	-v /etc/machine-id:/etc/machine-id:ro \
-        -e TERM"
+   -v /var/run/libvirt:/var/run/libvirt:rw \
+   -v /etc/machine-id:/etc/machine-id:ro"
 
 LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install && /usr/local/bin/host_service enable"
 LABEL UNINSTALL="/usr/local/bin/host_service disable && /usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"

@@ -14,6 +14,6 @@ if [ -z "${DISPLAY:-}" ]; then
 fi
 
 # TO DEBUG xterm is useful
-#xterm 
+#echo "xterm -e /usr/bin/virt-manager --debug --no-fork" > /tmp/l && chmod 755 /tmp/l
 #echo DEBUG ${XAUTHORITY}
 xterm -e /usr/bin/virt-manager --debug --no-fork

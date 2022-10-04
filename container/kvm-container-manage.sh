@@ -17,6 +17,7 @@ check_load_config_file
 create_container_host_network() {
 mkdir -p ${DATA}
 mkdir -p ${LIBVIRTDQEMU}/networks
+mkdir -p ${VARRUNLIBVIRT}
 podman create \
     --name ${CONTAINER_NAME} \
     --privileged --init \
@@ -24,6 +25,7 @@ podman create \
     --network host \
     --volume ${LIBVIRTDQEMU}:/etc/libvirt/qemu \
     --volume ${DATA}:${BACKING_DIR} \
+    --volume ${VARRUNLIBVIRT}:${VARRUNLIBBVIRT} \
     ${IMAGE}
 }
 
@@ -34,6 +36,7 @@ podman run \
     --privileged --init \
     --volume ${LIBVIRTDQEMU}:/etc/libvirt/qemu \
     --volume ${DATA}:${BACKING_DIR} \
+    --volume ${VARRUNLIBVIRT}:${VARRUNLIBBVIRT} \
     --entrypoint bash \
     ${IMAGE}
 }
@@ -216,7 +219,6 @@ case $1 in
     # podman exec -ti ${CONTAINER_NAME} virsh ${@:2}
     ;;    
     debug)
-    set -eu
     $0 build
     $0 rm
     $0 create
