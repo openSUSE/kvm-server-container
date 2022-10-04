@@ -103,10 +103,10 @@ else
    echo "libvirtd sle_network already created, skipping..."
 fi
 
-virtlogd --daemon
-libvirtd --listen --daemon 
-virsh net-start sle_network
-
-
-# use for devel
-sleep infinity
+#virtlogd --daemon
+#libvirtd --listen --daemon 
+#virsh net-start sle_network
+#
+#
+## use for devel
+#sleep infinity
