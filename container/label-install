@@ -14,7 +14,6 @@ MANAGESCRIPT=${CONTAINER}-manage.sh
 VIRTINSTALLDEMO=virt-install-demo.sh
 VIRTINSTALL=virt-install
 VIRTMANAGER=virt-manager.sh
-HOSTSERVICE=host_service
 
 echo "LABEL INSTALL"
 # ensure all scripts will be present on the host 
@@ -52,7 +51,6 @@ copy_to_usr_local_bin ${MANAGESCRIPT}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${VIRTMANAGER}
-copy_to_usr_local_bin ${HOSTSERVICE}
 copy_systemd_units
 cd /host/usr/local/bin/
 ln -sf virt-install-demo.sh virt-install.sh

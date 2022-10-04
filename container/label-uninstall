@@ -33,7 +33,6 @@ delete_file /host/usr/local/bin virsh.sh
 delete_file /host/usr/local/bin virt-install-demo.sh
 delete_file /host/usr/local/bin virt-install
 delete_file /host/usr/local/bin virt-manager.sh
-delete_file /host/usr/local/bin host_service
 
 # Remove systemd unit files from host
 for drv in ( qemu interface network nodedev nwfilter proxy secret storage ); do
