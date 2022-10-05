@@ -25,7 +25,7 @@ Environment=VIRTQEMUD_ARGS="--timeout 120"
 Environment=IMAGE=registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest
 Environment=CONTAINER_NAME=kvm-container
 EnvironmentFile=-/etc/sysconfig/container-virtqemud
-EnvironmentFile=-/host/etc/kvm-container.conf
+EnvironmentFile=-/etc/kvm-container.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
 ExecStartPre=-/usr/bin/podman pull ${IMAGE}
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon ${PODMAN_EXTRA_ARGS} ${PODMAN_DEFAULT_ARGS} --name ${CONTAINER_NAME} ${IMAGE} /usr/sbin/virtqemud $VIRTQEMUD_ARGS
