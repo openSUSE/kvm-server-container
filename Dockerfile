@@ -74,8 +74,8 @@ RUN chmod +x /entrypoint.sh
 COPY container /container
 RUN chmod +x /container/{kvm-container-manage.sh,virsh.sh,virt-install,virt-install-demo.sh,virt-manager.sh,virt-manager,label-install,label-uninstall,kvm-container-host-service}
 
-RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
-USER tester:libvirt
+#RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
+#USER tester:libvirt
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
