@@ -22,17 +22,15 @@ Documentation=https://libvirt.org
 Type=notify
 NotifyAccess=all
 Environment=VIRTQEMUD_ARGS="--timeout 120"
-Environment=IMAGE=registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest
-Environment=CONTAINER_NAME=kvm-container
+Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest"
+Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtqemud
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
-ExecStartPre=-/usr/bin/podman pull ${IMAGE}
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon ${PODMAN_EXTRA_ARGS} ${PODMAN_DEFAULT_ARGS} --name ${CONTAINER_NAME} ${IMAGE} /usr/sbin/virtqemud $VIRTQEMUD_ARGS
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --replace --rm --detach --net=host --privileged -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /etc/libvirt/qemu:/etc/libvirt/qemu -v /var/lib/libvirt/images:/var/lib/libvirt/images --name ${CONTAINER_NAME} ${IMAGE} /usr/sbin/virtqemud $VIRTQEMUD_ARGS
 ExecStartPost=-/usr/bin/podman network reload -a
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/%n.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/%n.ctr-id
-ExecReload=/usr/bin/podman exec --detach --privledged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
 KillMode=process
 Restart=on-failure
 # At least 1 FD per guest, often 2 (eg qemu monitor + qemu agent).

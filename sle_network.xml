@@ -1,0 +1,13 @@
+<network>
+  <name>sle_network</name>
+  <uuid>f243d94b-bd5b-415d-b4c7-ccb78ec3dc9e</uuid>
+  <forward mode='nat'/>
+  <bridge name='virbr0' stp='on' delay='0'/>
+  <mac address='52:54:00:d0:61:e9'/>
+  <ip address='192.168.10.1' netmask='255.255.255.0'>
+    <dhcp>
+      <range start='192.168.10.2' end='192.168.10.254'/>
+    </dhcp>
+  </ip>
+</network>
+

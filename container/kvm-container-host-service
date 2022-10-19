@@ -1,0 +1,37 @@
+#!/bin/bash
+
+if [ "$1" = "enable" ]; then
+   # Disable the libvirtd monolithic daemon if present
+   if [ "$(systemctl is-active libvirtd.service)" = "active" ]; then
+      systemctl stop libvirtd.service
+      systemctl stop libvirtd{,-ro,-admin,-tcp,-tls}.socket
+      systemctl disable libvirtd.service
+      systemctl disable libvirtd{,-ro,-admin,-tcp,-tls}.socket
+      echo "Stopping libvirtd.service"
+   fi
+
+   # Enable modular libvirt daemons on the host
+   for drv in qemu interface network nodedev nwfilter proxy secret storage
+   do
+      systemctl unmask container-virt${drv}d.service
+      systemctl unmask container-virt${drv}d{,-ro,-admin}.socket
+      systemctl enable container-virt${drv}d.service
+      systemctl enable container-virt${drv}d{,-ro,-admin}.socket
+      systemctl start container-virt${drv}d{,-ro,-admin}.socket
+      echo "Starting virt${drv}d.service"
+   done
+elif [ "$1" = "disable" ]; then
+   # Disable modular libvirt daemons on the host
+   if [ "$(systemctl is-active container-virtqemud.service)" = "active" ]; then
+      for drv in qemu interface network nodedev nwfilter proxy secret storage
+      do
+         systemctl stop container-virt${drv}d.service
+         systemctl stop container-virt${drv}d{,-ro,-admin}.socket
+         systemctl disable container-virt${drv}d.service
+         systemctl disable container-virt${drv}d{,-ro,-admin}.socket
+         echo "Disabling virt${drv}d.service"
+      done
+   fi
+else
+   echo "host_service: Unknown command \"$1\""
+fi
