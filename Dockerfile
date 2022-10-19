@@ -15,6 +15,8 @@ ENV VIRT_RUN_LABEL="/usr/bin/podman run --rm -ti --pid=host --ipc=host --net=hos
 LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install"
 LABEL UNINSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
 LABEL VIRT-MANAGER="$VIRT_RUN_LABEL --name virt-manager -e DISPLAY -e XAUTHORITY -e XAUTHLOCALHOSTNAME IMAGE /bin/bash /container/virt-manager"
+LABEL SERVICE-ENABLE="/usr/local/bin/kvm-container-host-service enable"
+LABEL SERVICE-DISABLE="/usr/local/bin/kvm-container-host-service disable"
 # Mandatory labels for the build service:
 #   https://en.opensuse.org/Building_derived_containers
 # labelprefix=%%LABELPREFIX%%
@@ -65,14 +67,15 @@ RUN zypper install --no-recommends -y \
 #  && find /usr/share/locale -name "*.mo" -delete
 
 #RUN echo -e 'listen_tcp = 1\ntcp_port = "16509"\nauth_tcp = "none"\nunix_sock_group = "libvirt"' >> /etc/libvirt/libvirtd.conf
-RUN echo -e 'unix_sock_group = "libvirt"' >> /etc/libvirt/libvirtd.conf
-RUN echo -e 'unix_sock_ro_perm = "0777"' >> /etc/libvirt/libvirtd.conf
-RUN echo -e 'unix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
+RUN echo -e 'unix_sock_group = "libvirt"\nunix_sock_ro_perm = "0777"\nunix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-manage.sh,virsh.sh,virt-install,virt-install-demo.sh,virt-manager.sh,virt-manager,label-install,label-uninstall}
+RUN chmod +x /container/{kvm-container-manage.sh,virsh.sh,virt-install,virt-install-demo.sh,virt-manager.sh,virt-manager,label-install,label-uninstall,kvm-container-host-service}
+
+RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
+USER tester:libvirt
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

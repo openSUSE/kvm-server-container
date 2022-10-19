@@ -3,7 +3,7 @@
 # This is the uninstall script for kvm when run in a privileged
 # container.
 
-CONTAINER=kvm
+CONTAINER=kvm-container
 cd /
 PATH="/usr/bin:/usr/sbin"
 
@@ -26,16 +26,18 @@ fi
 
 # removing installed files
 echo "LABEL UNINSTALL: Removing all files"
-delete_file /host/etc ${CONTAINER}-container.conf 
-delete_file /host/etc ${CONTAINER}-container-functions
-delete_file /host/usr/local/bin ${CONTAINER}-container-manage.sh
+delete_file /host/etc ${CONTAINER}.conf 
+delete_file /host/etc ${CONTAINER}-functions
+delete_file /host/etc/libvirt/qemu/networks sle_network.xml 
+delete_file /host/usr/local/bin ${CONTAINER}-manage.sh
 delete_file /host/usr/local/bin virsh.sh
 delete_file /host/usr/local/bin virt-install-demo.sh
 delete_file /host/usr/local/bin virt-install
 delete_file /host/usr/local/bin virt-manager.sh
+delete_file /host/usr/local/bin ${CONTAINER}-host-service
 
 # Remove systemd unit files from host
 for drv in qemu interface network nodedev nwfilter proxy secret storage; do
-   delete_file /host/etc/systemd/system virt${drv}d.service
-   delete_file /host/etc/systemd/system virt${drv}d{,-ro,-admin}.socket
+   delete_file /host/etc/systemd/system container-virt${drv}d.service
+   delete_file /host/etc/systemd/system container-virt${drv}d{,-ro,-admin}.socket
 done

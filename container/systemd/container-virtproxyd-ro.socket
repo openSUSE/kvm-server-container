@@ -6,7 +6,7 @@ After=container-virtproxyd.socket
 Conflicts=libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
 
 [Socket]
-ListenStream=/run/libvirt/libvirt-sock-ro
+ListenStream=/run/libvirt/container-virtproxyd-sock-ro
 Service=container-virtproxyd.service
 SocketMode=0666
 
