@@ -1,13 +1,13 @@
 [Unit]
-Description=Libvirt proxy local socket
+Description=Libvirt proxy non-TLS IP socket
 Before=container-virtproxyd.service
+BindsTo=virtproxyd.socket
+After=virtproxyd.socket
 Conflicts=libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
 
 [Socket]
-ListenStream=/run/libvirt/container-virtproxyd-sock
+ListenStream=16509
 Service=container-virtproxyd.service
-SocketMode=0666
-RemoveOnStop=yes
 
 [Install]
 WantedBy=sockets.target

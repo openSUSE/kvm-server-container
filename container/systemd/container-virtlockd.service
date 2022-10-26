@@ -1,8 +1,8 @@
 [Unit]
 Description=Virtual machine lock manager
-Conflicts=libvirtd.service virtlockd.service virtlockd.socket virtlockd-ro.socket virtlockd-admin.socket
-Requires=container-virtlockd.socket
-Requires=container-virtlockd-admin.socket
+Conflicts=libvirtd.service virtlockd.service
+Requires=virtlockd.socket
+Requires=virtlockd-admin.socket
 After=container-virtqemud.service
 BindsTo=container-virtqemud.service
 Documentation=man:virtlockd(8)
@@ -24,4 +24,4 @@ OOMScoreAdjust=-900
 LimitNOFILE=40960
 
 [Install]
-Also=container-virtlockd.socket
+Also=virtlockd.socket

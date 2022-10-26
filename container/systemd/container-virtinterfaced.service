@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization interface daemon
-Conflicts=libvirtd.service virtinterfaced.service virtinterfaced.socket virtinterfaced-ro.socket virtinterfaced-admin.socket
-Requires=container-virtinterfaced.socket
-Requires=container-virtinterfaced-ro.socket
-Requires=container-virtinterfaced-admin.socket
+Conflicts=libvirtd.service virtinterfaced.service
+Requires=virtinterfaced.socket
+Requires=virtinterfaced-ro.socket
+Requires=virtinterfaced-admin.socket
 After=network.target
 After=dbus.service
 After=apparmor.service
@@ -25,6 +25,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtinterfaced.socket
-Also=container-virtinterfaced-ro.socket
-Also=container-virtinterfaced-admin.socket
+Also=virtinterfaced.socket
+Also=virtinterfaced-ro.socket
+Also=virtinterfaced-admin.socket

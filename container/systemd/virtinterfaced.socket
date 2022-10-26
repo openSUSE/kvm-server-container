@@ -4,7 +4,7 @@ Before=container-virtinterfaced.service
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtinterfaced-sock
+ListenStream=/run/libvirt/virtinterfaced-sock
 Service=container-virtinterfaced.service
 SocketMode=0666
 RemoveOnStop=yes

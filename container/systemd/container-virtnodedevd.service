@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization nodedev daemon
-Conflicts=libvirtd.service virtnodedev.socket virtnodedev-ro.socket virtnodedev-admin.socket
-Requires=container-virtnodedevd.socket
-Requires=container-virtnodedevd-ro.socket
-Requires=container-virtnodedevd-admin.socket
+Conflicts=libvirtd.service virtnodedevd.service
+Requires=virtnodedevd.socket
+Requires=virtnodedevd-ro.socket
+Requires=virtnodedevd-admin.socket
 After=network.target
 After=dbus.service
 After=apparmor.service
@@ -25,6 +25,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtnodedevd.socket
-Also=container-virtnodedevd-ro.socket
-Also=container-virtnodedevd-admin.socket
+Also=virtnodedevd.socket
+Also=virtnodedevd-ro.socket
+Also=virtnodedevd-admin.socket

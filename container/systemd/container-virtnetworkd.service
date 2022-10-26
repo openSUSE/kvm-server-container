@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization network daemon
-Conflicts=libvirtd.service virt-networkd.socket virt-networkd-ro.socket virt-networkd-admin.socket
-Requires=container-virtnetworkd.socket
-Requires=container-virtnetworkd-ro.socket
-Requires=container-virtnetworkd-admin.socket
+Conflicts=libvirtd.service virtnetworkd.service 
+Requires=virtnetworkd.socket
+Requires=virtnetworkd-ro.socket
+Requires=virtnetworkd-admin.socket
 After=network.target
 After=firewalld.service
 After=iptables.service
@@ -30,6 +30,6 @@ KillMode=process
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtnetworkd.socket
-Also=container-virtnetworkd-ro.socket
-Also=container-virtnetworkd-admin.socket
+Also=virtnetworkd.socket
+Also=virtnetworkd-ro.socket
+Also=virtnetworkd-admin.socket

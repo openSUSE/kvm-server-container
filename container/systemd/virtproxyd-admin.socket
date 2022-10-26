@@ -1,12 +1,12 @@
 [Unit]
 Description=Libvirt proxy admin socket
 Before=container-virtproxyd.service
-BindsTo=container-virtproxyd.socket
-After=container-virtproxyd.socket
+BindsTo=virtproxyd.socket
+After=virtproxyd.socket
 Conflicts=libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
 
 [Socket]
-ListenStream=/run/libvirt/container-virtproxyd-admin-sock
+ListenStream=/run/libvirt/virtproxyd-admin-sock
 Service=container-virtproxyd.service
 SocketMode=0600
 

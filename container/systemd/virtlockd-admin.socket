@@ -1,11 +1,11 @@
 [Unit]
 Description=Virtual machine lock manager admin socket
 Before=container-virtqemud.service
-BindsTo=container-virtlockd.socket
-After=container-virtlockd.socket
+BindsTo=virtlockd.socket
+After=virtlockd.socket
 
 [Socket]
-ListenStream=/run/libvirt/container-virtlockd-admin-sock
+ListenStream=/run/libvirt/virtlockd-admin-sock
 Service=container-virtlockd.service
 SocketMode=0600
 

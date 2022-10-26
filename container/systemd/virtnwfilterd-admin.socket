@@ -1,12 +1,12 @@
 [Unit]
 Description=Libvirt nwfilter admin socket
 Before=container-virtnwfilterd.service
-BindsTo=container-virtnwfilterd.socket
-After=container-virtnwfilterd.socket
+BindsTo=virtnwfilterd.socket
+After=virtnwfilterd.socket
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtnwfilterd-admin-sock
+ListenStream=/run/libvirt/virtnwfilterd-admin-sock
 Service=container-virtnwfilterd.service
 SocketMode=0600
 
