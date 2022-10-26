@@ -4,7 +4,7 @@ Before=container-virtnodedevd.service
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtnodedevd-sock
+ListenStream=/run/libvirt/virtnodedevd-sock
 Service=container-virtnodedevd.service
 SocketMode=0666
 RemoveOnStop=yes

@@ -1,12 +1,12 @@
 [Unit]
 Description=Libvirt qemu admin socket
 Before=container-virtqemud.service
-BindsTo=container-virtqemud.socket
-After=container-virtqemud.socket
+BindsTo=virtqemud.socket
+After=virtqemud.socket
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtqemud-admin-sock
+ListenStream=/run/libvirt/virtqemud-admin-sock
 Service=container-virtqemud.service
 SocketMode=0600
 

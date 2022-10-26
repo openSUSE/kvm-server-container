@@ -3,7 +3,7 @@ Description=Virtual machine lock manager socket
 Before=container-virtqemud.service
 
 [Socket]
-ListenStream=/run/libvirt/container-virtlockd-sock
+ListenStream=/run/libvirt/virtlockd-sock
 SocketMode=0600
 
 [Install]

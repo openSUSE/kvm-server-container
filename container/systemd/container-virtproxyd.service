@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization daemon
-Conflicts=libvirtd.service virtproxyd.socket virtproxyd-ro.socket virtproxyd-admin.socket
-Requires=container-virtproxyd.socket
-Requires=container-virtproxyd-ro.socket
-Requires=container-virtproxyd-admin.socket
+Conflicts=libvirtd.service virtproxyd.service
+Requires=virtproxyd.socket
+Requires=virtproxyd-ro.socket
+Requires=virtproxyd-admin.socket
 After=network.target
 After=dbus.service
 After=apparmor.service
@@ -25,6 +25,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtproxyd.socket
-Also=container-virtproxyd-ro.socket
-Also=container-virtproxyd-admin.socket
+Also=virtproxyd.socket
+Also=virtproxyd-ro.socket
+Also=virtproxyd-admin.socket

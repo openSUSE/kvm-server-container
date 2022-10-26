@@ -14,10 +14,10 @@ if [ "$1" = "enable" ]; then
    for drv in qemu interface network nodedev nwfilter proxy secret storage
    do
       systemctl unmask container-virt${drv}d.service
-      systemctl unmask container-virt${drv}d{,-ro,-admin}.socket
+      systemctl unmask virt${drv}d{,-ro,-admin}.socket
       systemctl enable container-virt${drv}d.service
-      systemctl enable container-virt${drv}d{,-ro,-admin}.socket
-      systemctl start container-virt${drv}d{,-ro,-admin}.socket
+      systemctl enable virt${drv}d{,-ro,-admin}.socket
+      systemctl start virt${drv}d{,-ro,-admin}.socket
       echo "Starting virt${drv}d.service"
    done
 elif [ "$1" = "disable" ]; then
@@ -26,9 +26,9 @@ elif [ "$1" = "disable" ]; then
       for drv in qemu interface network nodedev nwfilter proxy secret storage
       do
          systemctl stop container-virt${drv}d.service
-         systemctl stop container-virt${drv}d{,-ro,-admin}.socket
+         systemctl stop virt${drv}d{,-ro,-admin}.socket
          systemctl disable container-virt${drv}d.service
-         systemctl disable container-virt${drv}d{,-ro,-admin}.socket
+         systemctl disable virt${drv}d{,-ro,-admin}.socket
          echo "Disabling virt${drv}d.service"
       done
    fi

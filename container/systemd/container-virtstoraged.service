@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization storage daemon
-Conflicts=libvirtd.service virtstoraged.socket virtstoraged-ro.socket virtstoraged-admin.socket
-Requires=container-virtstoraged.socket
-Requires=container-virtstoraged-ro.socket
-Requires=container-virtstoraged-admin.socket
+Conflicts=libvirtd.service virtstoraged.service
+Requires=virtstoraged.socket
+Requires=virtstoraged-ro.socket
+Requires=virtstoraged-admin.socket
 After=network.target
 After=dbus.service
 After=iscsid.service
@@ -27,6 +27,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtstoraged.socket
-Also=container-virtstoraged-ro.socket
-Also=container-virtstoraged-admin.socket
+Also=virtstoraged.socket
+Also=virtstoraged-ro.socket
+Also=virtstoraged-admin.socket

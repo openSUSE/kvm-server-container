@@ -1,9 +1,9 @@
 [Unit]
 Description=Virtualization nwfilter daemon
-Conflicts=libvirtd.service virtnwfilterd.socket virtnwfilterd-ro.socket virtnwfilterd-admin.socket
-Requires=container-virtnwfilterd.socket
-Requires=container-virtnwfilterd-ro.socket
-Requires=container-virtnwfilterd-admin.socket
+Conflicts=libvirtd.service virtnwfilterd.service
+Requires=virtnwfilterd.socket
+Requires=virtnwfilterd-ro.socket
+Requires=virtnwfilterd-admin.socket
 After=network.target
 After=dbus.service
 After=apparmor.service
@@ -25,6 +25,6 @@ Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-Also=container-virtnwfilterd.socket
-Also=container-virtnwfilterd-ro.socket
-Also=container-virtnwfilterd-admin.socket
+Also=virtnwfilterd.socket
+Also=virtnwfilterd-ro.socket
+Also=virtnwfilterd-admin.socket

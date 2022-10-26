@@ -4,7 +4,7 @@ Before=container-virtnwfilterd.service
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtnwfilterd-sock
+ListenStream=/run/libvirt/virtnwfilterd-sock
 Service=container-virtnwfilterd.service
 SocketMode=0666
 RemoveOnStop=yes

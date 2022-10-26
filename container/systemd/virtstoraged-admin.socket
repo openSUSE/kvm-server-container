@@ -1,12 +1,12 @@
 [Unit]
 Description=Libvirt storage admin socket
 Before=container-virtstoraged.service
-BindsTo=container-virtstoraged.socket
-After=container-virtstoraged.socket
+BindsTo=virtstoraged.socket
+After=virtstoraged.socket
 
 
 [Socket]
-ListenStream=/run/libvirt/container-virtstoraged-admin-sock
+ListenStream=/run/libvirt/virtstoraged-admin-sock
 Service=container-virtstoraged.service
 SocketMode=0600
 

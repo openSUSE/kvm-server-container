@@ -1,0 +1,13 @@
+[Unit]
+Description=Libvirt proxy TLS IP socket
+Before=container-virtproxyd.service
+BindsTo=virtproxyd.socket
+After=virtproxyd.socket
+Conflicts=libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd-tcp.socket libvirtd-tls.socket
+
+[Socket]
+ListenStream=16514
+Service=container-virtproxyd.service
+
+[Install]
+WantedBy=sockets.target
