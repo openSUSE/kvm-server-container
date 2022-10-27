@@ -1,0 +1,36 @@
+[Unit]
+Description=Meta service for containerized virtualization daemon
+Conflicts=libvirtd.service
+Wants=systemd-machined.service
+Before=container-virtlogd.service
+Before=container-virtlockd.service
+Before=container-virtqemud.service
+After=network.target
+After=dbus.service
+After=apparmor.service
+After=local-fs.target
+After=remote-fs.target
+After=systemd-logind.service
+After=systemd-machined.service
+
+[Service]
+Type=notify
+NotifyAccess=all
+Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest"
+Environment=CONTAINER_NAME="kvm-container"
+EnvironmentFile=-/etc/sysconfig/kvm-container-meta
+EnvironmentFile=-/etc/kvm-container.conf
+ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
+ExecStartPre=/usr/bin/podman create --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --replace --rm --pull=newer --net=host --privileged --cgroupns=host -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /etc/libvirt/qemu:/etc/libvirt/qemu -v /var/lib/libvirt/images:/var/lib/libvirt/images --name ${CONTAINER_NAME} ${IMAGE} /usr/bin/sleep infinity
+ExecStart=/usr/bin/podman start ${CONTAINER_NAME}
+ExecStartPost=-/usr/bin/podman network reload -a
+ExecStop=/usr/bin/podman stop --ignore --cidfile %t/%n.ctr-id -t 10
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/%n.ctr-id
+KillMode=control-group
+Restart=on-failure
+TimeoutSec=70
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+

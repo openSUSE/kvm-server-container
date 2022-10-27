@@ -1,9 +1,11 @@
 [Unit]
 Description=Virtual machine lock manager socket
 Before=container-virtqemud.service
+Before=container-virtlockd.service
 
 [Socket]
 ListenStream=/run/libvirt/virtlockd-sock
+Service=container-virtlockd.service
 SocketMode=0600
 
 [Install]

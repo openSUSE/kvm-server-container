@@ -14,14 +14,14 @@ Documentation=man:virtnodedevd(8)
 Documentation=https://libvirt.org
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=forking
 Environment=VIRTNODEDEVD_ARGS="--timeout 120"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtnodedevd
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtnodedevd $VIRTNODEDEVD_ARGS
 Restart=on-failure
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target

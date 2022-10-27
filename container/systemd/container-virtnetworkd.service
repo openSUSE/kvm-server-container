@@ -17,8 +17,7 @@ Documentation=man:virtnetworkd(8)
 Documentation=https://libvirt.org
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=forking
 Environment=VIRTNETWORKD_ARGS="--timeout 120"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/kvm-container.conf
@@ -26,7 +25,7 @@ EnvironmentFile=-/etc/sysconfig/container-virtnetworkd
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtnetworkd $VIRTNETWORKD_ARGS
 ExecReload=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /bin/kill -HUP $MAINPID
 Restart=on-failure
-KillMode=process
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target
