@@ -39,5 +39,17 @@ delete_file /host/usr/local/bin ${CONTAINER}-host-service
 # Remove systemd unit files from host
 for drv in qemu interface network nodedev nwfilter proxy secret storage; do
    delete_file /host/etc/systemd/system container-virt${drv}d.service
-   delete_file /host/etc/systemd/system virt${drv}d{,-ro,-admin}.socket
+   delete_file /host/etc/systemd/system virt${drv}d.socket
+   delete_file /host/etc/systemd/system virt${drv}d-ro.socket
+   delete_file /host/etc/systemd/system virt${drv}d-admin.socket
 done
+
+for drv in log lock; do
+   delete_file /host/etc/systemd/system container-virt${drv}d.service
+   delete_file /host/etc/systemd/system virt${drv}d.socket
+   delete_file /host/etc/systemd/system virt${drv}d-admin.socket
+done
+
+delete_file /host/etc/systemd/system virtproxyd-tls.socket
+delete_file /host/etc/systemd/system virtproxyd-tcp.socket
+delete_file /host/etc/systemd/system kvm-container-meta.service
