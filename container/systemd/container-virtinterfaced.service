@@ -14,14 +14,14 @@ Documentation=man:virtinterfaced(8)
 Documentation=https://libvirt.org
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=forking
 Environment=VIRTINTERFACED_ARGS="--timeout 120"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtinterfaced
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtinterfaced $VIRTINTERFACED_ARGS
 Restart=on-failure
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target

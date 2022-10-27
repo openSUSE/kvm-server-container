@@ -1,9 +1,11 @@
 [Unit]
 Description=Virtual machine log manager socket
 Before=container-virtqemud.service
+Before=container-virtlogd.service
 
 [Socket]
 ListenStream=/run/libvirt/virtlogd-sock
+Service=container-virtlogd.service
 SocketMode=0600
 
 [Install]

@@ -16,14 +16,14 @@ Documentation=man:virtstoraged(8)
 Documentation=https://libvirt.org
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=forking
 Environment=VIRTSTORAGED_ARGS="--timeout 120"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtstoraged
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtstoraged $VIRTSTORAGED_ARGS
 Restart=on-failure
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target

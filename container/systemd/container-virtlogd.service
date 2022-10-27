@@ -3,17 +3,21 @@ Description=Virtual machine log manager
 Conflicts=libvirtd.service virtlogd.service 
 Requires=virtlogd.socket
 Requires=virtlogd-admin.socket
-After=container-virtqemud.service
-BindsTo=container-virtqemud.service
+Before=container-virtqemud.service
+After=kvm-container-meta.service
+BindsTo=kvm-container-meta.service
 Documentation=man:virtlogd(8)
 Documentation=https://libvirt.org
 
 [Service]
+Type=forking
 Environment=VIRTLOGD_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtlogd
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtlogd $VIRTLOGD_ARGS
+Restart=on-failure
+RestartSec=2
 # Losing the logs is a really bad thing that will
 # cause the machine to be fenced (rebooted), so make
 # sure we discourage OOM killer
