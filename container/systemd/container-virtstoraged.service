@@ -17,7 +17,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-Environment=VIRTSTORAGED_ARGS="--timeout 120"
+Environment=VIRTSTORAGED_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtstoraged
 EnvironmentFile=-/etc/kvm-container.conf

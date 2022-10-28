@@ -15,7 +15,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-Environment=VIRTPROXYD_ARGS="--timeout 120"
+Environment=VIRTPROXYD_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtproxyd
 EnvironmentFile=-/etc/kvm-container.conf

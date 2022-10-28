@@ -9,6 +9,7 @@ CONTAINER=kvm-container
 MAINFON=${CONTAINER}-functions
 MAINCONF=${CONTAINER}.conf
 NETCONF=libvirt/qemu/networks/sle_network.xml
+QEMUCONF=libvirt/qemu.conf
 # BIN
 VIRSHSCRIPT=virsh.sh
 MANAGESCRIPT=${CONTAINER}-manage.sh
@@ -31,10 +32,6 @@ fi
 copy_to_etc() {
 CONF=$1
 if [ ! -e /host/etc/${CONF} ]; then
-   # Create directory if needed
-   if [ ! "$(dirname ${CONF})" = "." ]; then
-      mkdir -p /host/etc/$(dirname ${CONF})
-   fi
 	cp -av /container/${CONF} /host/etc/${CONF}
 else
 	echo "/host/etc/${CONF} already exist, will not update it"
@@ -52,7 +49,9 @@ copy_systemd_units() {
 ## MAIN
 copy_to_etc ${MAINCONF}
 copy_to_etc ${MAINFON}
-copy_to_etc ${NETCONF}
+mkdir -p /host/etc/libvirt/qemu/networks
+cp -av /container/sle_network.xml /host/etc/${NETCONF}
+cp -av /container/qemu.conf /host/etc/${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
 copy_to_usr_local_bin ${MANAGESCRIPT}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
