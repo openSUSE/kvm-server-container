@@ -15,7 +15,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-Environment=VIRTNWFILTERD_ARGS="--timeout 120"
+Environment=VIRTNWFILTERD_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtnwfilterd
 EnvironmentFile=-/etc/kvm-container.conf

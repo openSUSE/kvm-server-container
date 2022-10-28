@@ -15,7 +15,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-Environment=VIRTNODEDEVD_ARGS="--timeout 120"
+Environment=VIRTNODEDEVD_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtnodedevd
 EnvironmentFile=-/etc/kvm-container.conf
