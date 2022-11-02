@@ -14,6 +14,7 @@ ENV VIRT_RUN_LABEL="/usr/bin/podman run --rm -ti --pid=host --ipc=host --net=hos
 
 LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install"
 LABEL UNINSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
+LABEL UPDATE="/usr/bin/podman run --env IMAGE=IMAGE --rm --replace --pull=newer --privileged -v /:/host --name kvm-container-update IMAGE /bin/bash /container/label-install"
 LABEL VIRT-MANAGER="$VIRT_RUN_LABEL --name virt-manager -e DISPLAY -e XAUTHORITY -e XAUTHLOCALHOSTNAME IMAGE /bin/bash /container/virt-manager"
 LABEL SERVICE-ENABLE="/usr/local/bin/kvm-container-host-service enable"
 LABEL SERVICE-DISABLE="/usr/local/bin/kvm-container-host-service disable"

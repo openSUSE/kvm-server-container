@@ -38,14 +38,14 @@ podman exec -ti ${CONTAINER_NAME} virt-install \
     --machine q35 --boot uefi \
     --cpu host-passthrough \
     --video vga \
-    --console pty,target_type=virtio \
-    --noautoconsole \
+    --console pty,target.type=virtio \
+    --autoconsole text \
     --network network=sle_network \
     --rng /dev/urandom \
     --vcpu ${VCPU} --memory ${VMMEMORY} \
     --cloud-init \
     --disk size=${DISKSIZE},backing_store=${BACKING_STORE},backing_format=${BACKING_FORMAT},bus=virtio,cache=none \
-    --graphics vnc,listen=0.0.0.0
+    --graphics vnc,listen=0.0.0.0,port=5950
 
 # ignition needs another variant of image
 #    --sysinfo type=fwcfg,entry0.name="opt/com.coreos/config",entry0.file="${BACKING_DIR}/VM_config.ign" \
