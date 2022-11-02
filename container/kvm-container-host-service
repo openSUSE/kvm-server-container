@@ -10,6 +10,10 @@ if [ "$1" = "enable" ]; then
       echo "Stopping libvirtd.service"
    fi
 
+   # (Re)Start the kvm-container
+   systemctl daemon-reload
+   systemctl restart kvm-container-meta.service
+
    # Enable modular libvirt daemons on the host
    for drv in qemu interface network nodedev nwfilter proxy secret storage
    do
@@ -17,20 +21,25 @@ if [ "$1" = "enable" ]; then
       systemctl unmask virt${drv}d{,-ro,-admin}.socket
       systemctl enable container-virt${drv}d.service
       systemctl enable virt${drv}d{,-ro,-admin}.socket
-      systemctl start virt${drv}d{,-ro,-admin}.socket
-      echo "Starting virt${drv}d.service"
+      systemctl restart virt${drv}d{,-ro,-admin}.socket
+      systemctl restart container-virt${drv}d.service
+      echo "Attempting to start container-virt${drv}d.service"
    done
 elif [ "$1" = "disable" ]; then
    # Disable modular libvirt daemons on the host
-   if [ "$(systemctl is-active container-virtqemud.service)" = "active" ]; then
-      for drv in qemu interface network nodedev nwfilter proxy secret storage
+   if [ "$(systemctl is-active kvm-container-meta.service)" = "active" ]; then
+      for drv in qemu interface network nodedev nwfilter proxy secret storage log lock
       do
          systemctl stop container-virt${drv}d.service
          systemctl stop virt${drv}d{,-ro,-admin}.socket
          systemctl disable container-virt${drv}d.service
          systemctl disable virt${drv}d{,-ro,-admin}.socket
-         echo "Disabling virt${drv}d.service"
+         echo "Disabling container-virt${drv}d.service"
       done
+
+      # Stop the kvm-container
+      systemctl stop kvm-container-meta.service
+      systemctl disable kvm-container-meta.service
    fi
 else
    echo "host_service: Unknown command \"$1\""

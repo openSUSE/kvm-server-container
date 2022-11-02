@@ -8,8 +8,8 @@ After=network.target
 After=dbus.service
 After=apparmor.service
 After=local-fs.target
-After=container-virtqemud.service
-BindsTo=container-virtqemud.service
+After=kvm-container-meta.service
+BindsTo=kvm-container-meta.service
 Documentation=man:virtnwfilterd(8)
 Documentation=https://libvirt.org
 

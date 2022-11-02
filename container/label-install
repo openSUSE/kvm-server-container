@@ -19,23 +19,20 @@ VIRTMANAGER=virt-manager.sh
 HOSTSERVICE=${CONTAINER}-host-service
 
 echo "LABEL INSTALL"
-# ensure all scripts will be present on the host 
+# Install/update scripts on the host 
 copy_to_usr_local_bin() {
-SCRIPT=$1
-if [ ! -e /host/usr/local/bin/${SCRIPT} ]; then
-        cp -av /container/${SCRIPT} /host/usr/local/bin/
-else
-        echo "/host/usr/local/bin/${SCRIPT} already exist, will not update it"
-fi
+   SCRIPT=$1
+   cp -av /container/${SCRIPT} /host/usr/local/bin/
 }
 
+# Install but don't update config files
 copy_to_etc() {
-CONF=$1
-if [ ! -e /host/etc/${CONF} ]; then
-	cp -av /container/${CONF} /host/etc/${CONF}
-else
-	echo "/host/etc/${CONF} already exist, will not update it"
-fi
+   CONF=$1
+   if [ ! -e /host/etc/${CONF} ]; then
+   	cp -av /container/${CONF} /host/etc/${CONF}
+   else
+   	echo "/host/etc/${CONF} already exist, will not update it"
+   fi
 }
 
 copy_systemd_units() {
