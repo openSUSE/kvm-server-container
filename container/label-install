@@ -11,11 +11,9 @@ MAINCONF=${CONTAINER}.conf
 NETCONF=libvirt/qemu/networks/sle_network.xml
 QEMUCONF=libvirt/qemu.conf
 # BIN
-VIRSHSCRIPT=virsh.sh
-MANAGESCRIPT=${CONTAINER}-manage.sh
+VIRSHSCRIPT=virsh
 VIRTINSTALLDEMO=virt-install-demo.sh
 VIRTINSTALL=virt-install
-VIRTMANAGER=virt-manager.sh
 HOSTSERVICE=${CONTAINER}-host-service
 
 echo "LABEL INSTALL"
@@ -53,7 +51,6 @@ copy_to_usr_local_bin ${VIRTINSTALLDEMO}
 copy_to_usr_local_bin ${MANAGESCRIPT}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
-copy_to_usr_local_bin ${VIRTMANAGER}
 copy_to_usr_local_bin ${HOSTSERVICE}
 copy_systemd_units
 # FIXME: Image location not present on host, is there a better way to do this?
