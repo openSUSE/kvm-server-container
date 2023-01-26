@@ -8,7 +8,7 @@ FROM opensuse/tumbleweed
 
 LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install"
 LABEL UNINSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
-LABEL UPDATE="/usr/bin/podman run --env IMAGE=IMAGE --rm --replace --pull=newer --privileged -v /:/host --name kvm-container-update IMAGE /bin/bash /container/label-install"
+LABEL UPDATE="/usr/bin/podman run --env IMAGE=IMAGE --replace --pull=newer --privileged -v /:/host --name kvm-container-update IMAGE /bin/bash /container/label-install"
 LABEL SERVICE-ENABLE="/usr/local/bin/kvm-container-host-service enable"
 LABEL SERVICE-DISABLE="/usr/local/bin/kvm-container-host-service disable"
 
@@ -36,7 +36,6 @@ RUN zypper install --no-recommends -y \
               libvirt-daemon-qemu \
               netcat-openbsd \
               nftables \
-              openssh-server \
               qemu-hw-usb-redirect \
               qemu-tools \
               qemu-x86 \
