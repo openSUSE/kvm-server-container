@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$EUID" != 0 ]; then
+   sudo -S "$0" "$@"
+   exit $?
+fi
+
 if [ "$1" = "enable" ]; then
    # Disable the libvirtd monolithic daemon if present
    if [ "$(systemctl is-active libvirtd.service)" = "active" ]; then
