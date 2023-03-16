@@ -31,9 +31,18 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
-              libvirt-client \
+              libvirt-daemon-lock \
+              libvirt-daemon-log \
+              libvirt-daemon-proxy \
               libvirt-daemon-config-network \
-              libvirt-daemon-qemu \
+              libvirt-daemon-config-nwfilter \
+              libvirt-daemon-driver-network \
+              libvirt-daemon-driver-nodedev \
+              libvirt-daemon-driver-nwfilter \
+              libvirt-daemon-driver-qemu \
+              libvirt-daemon-driver-secret \
+              libvirt-daemon-driver-storage \
+              libvirt-daemon-plugin-lockd \
               netcat-openbsd \
               nftables \
               qemu-hw-usb-redirect \
