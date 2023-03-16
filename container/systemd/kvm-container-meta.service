@@ -6,7 +6,6 @@ Before=container-virtlogd.service
 Before=container-virtlockd.service
 Before=container-virtqemud.service
 Before=container-virtnetworkd.service
-Before=container-virtinterfaced.service
 Before=container-virtnwfilterd.service
 Before=container-virtnodedevd.service
 Before=container-virtsecretd.service

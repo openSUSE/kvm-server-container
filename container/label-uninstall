@@ -36,7 +36,7 @@ delete_file /host/usr/local/bin virt-install
 delete_file /host/usr/local/bin ${CONTAINER}-host-service
 
 # Remove systemd unit files from host
-for drv in qemu interface network nodedev nwfilter proxy secret storage; do
+for drv in qemu network nodedev nwfilter proxy secret storage; do
    delete_file /host/etc/systemd/system container-virt${drv}d.service
    delete_file /host/etc/systemd/system virt${drv}d.socket
    delete_file /host/etc/systemd/system virt${drv}d-ro.socket
