@@ -48,7 +48,6 @@ mkdir -p /host/etc/libvirt/qemu/networks
 cp -av /container/sle_network.xml /host/etc/${NETCONF}
 cp -av /container/qemu.conf /host/etc/${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
-copy_to_usr_local_bin ${MANAGESCRIPT}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${HOSTSERVICE}
