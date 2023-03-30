@@ -1,15 +1,14 @@
-rebuild_caleb_dev:
+rebuild:
   steps:
     - trigger_services:
-        project: home:ccrane
+        project: Virtualization
         package: kvm-container
     - rebuild_package:
-        project: home:ccrane
+        project: Virtualization
         package: kvm-container
   filters:
-    event: push
+    event: pull_request
     branches:
       only:
-        - caleb-dev
-
+        - main
 
