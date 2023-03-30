@@ -7,7 +7,7 @@
         <param name="var">TAGPREFIX</param>
         <param name="var">LABELPREFIX</param>
         <param name="eval">
-            PKG_VERSION=0.1
+            PKG_VERSION=0.2
             REGISTRY=registry.opensuse.org
             TAGPREFIX=suse/alp/workloads
             LABELPREFIX=com.suse.alp.workloads.kvm
