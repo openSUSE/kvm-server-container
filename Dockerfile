@@ -44,6 +44,7 @@ RUN zypper install --no-recommends -y \
               libvirt-daemon-plugin-lockd \
               netcat-openbsd \
               nftables \
+              python3-pvirsh \
               qemu-hw-usb-redirect \
               qemu-tools \
               qemu-x86 \

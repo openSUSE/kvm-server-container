@@ -55,4 +55,3 @@ copy_systemd_units
 # FIXME: Image location not present on host, is there a better way to do this?
 mkdir -p /host/var/lib/libvirt/images
 cd /host/usr/local/bin/
-ln -sf virt-install-demo.sh virt-install.sh
