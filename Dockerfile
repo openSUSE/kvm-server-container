@@ -73,6 +73,7 @@ RUN zypper install --no-recommends -y \
               qemu-block-nfs \
               qemu-block-rbd \
               qemu-block-ssh \
+              sevctl \
               socat \
               tar \
               timezone \
