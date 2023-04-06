@@ -30,6 +30,7 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
+              libvirt-client-qemu \
               libvirt-daemon-lock \
               libvirt-daemon-log \
               libvirt-daemon-proxy \
@@ -44,6 +45,7 @@ RUN zypper install --no-recommends -y \
               libvirt-daemon-plugin-lockd \
               netcat-openbsd \
               nftables \
+              python3-lxml \
               python3-pvirsh \
               python3-virt-scenario \
               qemu-hw-usb-redirect \
@@ -74,6 +76,7 @@ RUN zypper install --no-recommends -y \
               qemu-block-rbd \
               qemu-block-ssh \
               sevctl \
+              sevctl.x86_64 \
               socat \
               tar \
               timezone \
