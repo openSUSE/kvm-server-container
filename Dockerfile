@@ -63,7 +63,7 @@ RUN zypper install --no-recommends -y \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,virt-install,virt-install-demo.sh,virsh,virt-scenario}
+RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,qemu-img,virt-install,virt-install-demo.sh,virsh,virt-scenario,virt-xml-validate}
 
 #RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
 #USER tester:libvirt

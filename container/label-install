@@ -21,6 +21,8 @@ echo "LABEL INSTALL"
 copy_to_usr_local_bin() {
    SCRIPT=$1
    cp -av /container/${SCRIPT} /host/usr/local/bin/
+   # ensure the script is executable in bin dir
+   chmod 755 /host/usr/local/bin/${SCRIPT}
 }
 
 # Install but don't update config files
@@ -52,7 +54,9 @@ copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${HOSTSERVICE}
 copy_to_usr_local_bin pvirsh
+copy_to_usr_local_bin qemu-img
 copy_to_usr_local_bin virt-scenario
+copy_to_usr_local_bin virt-xml-validate
 copy_systemd_units
 
 # save the image path for the container that was used to run the install

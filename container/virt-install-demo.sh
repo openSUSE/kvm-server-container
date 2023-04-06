@@ -54,7 +54,7 @@ podman exec -ti ${CONTAINER_NAME} virt-install \
 create_vm
 cat <<EOF 
  To connect to the VM in console mode:
-virsh.sh console ${VMNAME}
+virsh console ${VMNAME}
 
  To detach from the console:
 crtl + ]
