@@ -52,6 +52,12 @@ copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${HOSTSERVICE}
 copy_systemd_units
+
+# save the image path for the container that was used to run the install
+# as the default container image to use for the libvirtd service. The
+# image path to use should be available in the IMAGE environment variable.
+echo "IMAGE=${IMAGE}" > /host/etc/default/${CONTAINER}
+
 # FIXME: Image location not present on host, is there a better way to do this?
 mkdir -p /host/var/lib/libvirt/images
 cd /host/usr/local/bin/
