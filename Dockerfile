@@ -75,15 +75,15 @@ RUN zypper install --no-recommends -y \
               qemu-block-nfs \
               qemu-block-rbd \
               qemu-block-ssh \
-              sevctl \
-              sevctl.x86_64 \
               socat \
               tar \
               timezone \
               vim-small \
               virt-install \
-              shadow \
-  && zypper clean --all
+              shadow
+#!ArchExclusiveLine: x86_64
+RUN zypper install --no-recommends -y sevctl
+RUN zypper clean --all
 
 # FIXME: Modular daemons don't always respect /etc/libvirt/libvirtd.conf
 #RUN echo -e 'unix_sock_group = "libvirt"\nunix_sock_ro_perm = "0777"\nunix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
