@@ -49,6 +49,30 @@ RUN zypper install --no-recommends -y \
               qemu-hw-usb-redirect \
               qemu-tools \
               qemu-x86 \
+              qemu-hw-display-qxl \
+              qemu-hw-display-virtio-vga \
+              qemu-hw-usb-host \
+              qemu-hw-usb-smartcard \
+              qemu-hw-display-virtio-gpu \
+              qemu-hw-display-virtio-gpu-pci \
+              qemu-audio-alsa \
+              qemu-audio-dbus \
+              qemu-audio-jack \
+              qemu-audio-oss \
+              qemu-audio-pa \
+              qemu-audio-spice \
+              qemu-sgabios \
+              qemu-vgabios \
+              qemu-seabios \
+              qemu-chardev-spice \
+              qemu-ovmf-x86_64 \
+              qemu-ipxe \
+              qemu-block-curl \
+              qemu-block-dmg \
+              qemu-block-iscsi \
+              qemu-block-nfs \
+              qemu-block-rbd \
+              qemu-block-ssh \
               socat \
               tar \
               timezone \

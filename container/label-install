@@ -8,7 +8,7 @@ CONTAINER=kvm-container
 # ETC
 MAINFON=${CONTAINER}-functions
 MAINCONF=${CONTAINER}.conf
-NETCONF=libvirt/qemu/networks/sle_network.xml
+NETCONF=libvirt/qemu/networks/default_network.xml
 QEMUCONF=libvirt/qemu.conf
 # BIN
 VIRSHSCRIPT=virsh
@@ -47,7 +47,7 @@ copy_systemd_units() {
 copy_to_etc ${MAINCONF}
 copy_to_etc ${MAINFON}
 mkdir -p /host/etc/libvirt/qemu/networks
-cp -av /container/sle_network.xml /host/etc/${NETCONF}
+cp -av /container/default_network.xml /host/etc/${NETCONF}
 cp -av /container/qemu.conf /host/etc/${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
