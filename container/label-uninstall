@@ -29,6 +29,8 @@ echo "LABEL UNINSTALL: Removing all files"
 delete_file /host/etc ${CONTAINER}.conf 
 delete_file /host/etc ${CONTAINER}-functions
 delete_file /host/etc/libvirt/qemu/networks sle_network.xml 
+delete_file /host/usr/local/bin pvirsh
+delete_file /host/usr/local/bin virt-scenario
 delete_file /host/usr/local/bin virsh
 delete_file /host/usr/local/bin virt-install-demo.sh
 delete_file /host/usr/local/bin virt-install

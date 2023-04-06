@@ -45,6 +45,7 @@ RUN zypper install --no-recommends -y \
               netcat-openbsd \
               nftables \
               python3-pvirsh \
+              python3-virt-scenario \
               qemu-hw-usb-redirect \
               qemu-tools \
               qemu-x86 \
@@ -62,7 +63,7 @@ RUN zypper install --no-recommends -y \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{virsh,virt-install,virt-install-demo.sh,label-install,label-uninstall,kvm-container-host-service}
+RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,virt-install,virt-install-demo.sh,virsh,virt-scenario}
 
 #RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
 #USER tester:libvirt

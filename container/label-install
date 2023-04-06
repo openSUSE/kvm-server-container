@@ -51,6 +51,8 @@ copy_to_usr_local_bin ${VIRTINSTALLDEMO}
 copy_to_usr_local_bin ${VIRSHSCRIPT}
 copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${HOSTSERVICE}
+copy_to_usr_local_bin pvirsh
+copy_to_usr_local_bin virt-scenario
 copy_systemd_units
 
 # save the image path for the container that was used to run the install
