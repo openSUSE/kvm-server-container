@@ -2,13 +2,26 @@ rebuild:
   steps:
     - trigger_services:
         project: Virtualization
-        package: kvm-container
+        package: kvm-container-modular-libvirt
     - rebuild_package:
         project: Virtualization
-        package: kvm-container
+        package: kvm-container-modular-libvirt
   filters:
     event: pull_request
     branches:
       only:
         - main
+rebuild_home-ccrane:
+  steps:
+    - trigger_services:
+        project: home:ccrane
+        package: kvm-container
+    - rebuild_package:
+        project: home:ccrane
+        package: kvm-container
+  filters:
+    event: push
+    branches:
+      only:
+        - home-ccrane
 
