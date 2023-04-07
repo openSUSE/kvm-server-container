@@ -56,6 +56,7 @@ copy_to_usr_local_bin ${HOSTSERVICE}
 copy_to_usr_local_bin pvirsh
 copy_to_usr_local_bin qemu-img
 copy_to_usr_local_bin virt-scenario
+copy_to_usr_local_bin virt-scenario-launch
 copy_to_usr_local_bin virt-xml-validate
 copy_systemd_units
 

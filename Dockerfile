@@ -82,19 +82,13 @@ RUN zypper install --no-recommends -y \
               virt-install \
               shadow
 #!ArchExclusiveLine: x86_64
-RUN zypper install --no-recommends -y sevctl
+RUN if [ $(uname -m) = "x86_64" ]; then zypper install --no-recommends -y sevctl; fi
 RUN zypper clean --all
-
-# FIXME: Modular daemons don't always respect /etc/libvirt/libvirtd.conf
-#RUN echo -e 'unix_sock_group = "libvirt"\nunix_sock_ro_perm = "0777"\nunix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,qemu-img,virt-install,virt-install-demo.sh,virsh,virt-scenario,virt-xml-validate}
-
-#RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
-#USER tester:libvirt
+RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,qemu-img,virt-install,virt-install-demo.sh,virsh,virt-scenario,virt-scenario-launch,virt-xml-validate}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

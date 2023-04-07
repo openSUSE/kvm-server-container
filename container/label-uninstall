@@ -32,6 +32,7 @@ delete_file /host/etc/libvirt/qemu/networks default_network.xml
 delete_file /host/usr/local/bin pvirsh
 delete_file /host/usr/local/bin qemu-img
 delete_file /host/usr/local/bin virt-scenario
+delete_file /host/usr/local/bin virt-scenario-launch
 delete_file /host/usr/local/bin virt-xml-validate
 delete_file /host/usr/local/bin virsh
 delete_file /host/usr/local/bin virt-install-demo.sh
