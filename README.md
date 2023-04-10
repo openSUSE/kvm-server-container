@@ -11,7 +11,7 @@ Installs qemu, libvirt, virt-install and some additional tools
 * '''virsh''' is the wrapper on the host to use virsh command
 * '''virt-install-demo.sh''' is a wrapper to quickly install a test VM
 * '''virt-install''' is the wrapper on the host to virt-install
-* '''sle_network.xml''' contains a deafult network configuration for the container and its workloads
+* '''default_network.xml''' contains a deafult network configuration for the container and its workloads
 
 # How to get a working libvirtd container
 

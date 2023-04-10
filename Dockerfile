@@ -30,6 +30,7 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
+              libvirt-client-qemu \
               libvirt-daemon-lock \
               libvirt-daemon-log \
               libvirt-daemon-proxy \
@@ -44,27 +45,50 @@ RUN zypper install --no-recommends -y \
               libvirt-daemon-plugin-lockd \
               netcat-openbsd \
               nftables \
+              python3-lxml \
+              python3-pvirsh \
+              python3-virt-scenario \
               qemu-hw-usb-redirect \
               qemu-tools \
               qemu-x86 \
+              qemu-hw-display-qxl \
+              qemu-hw-display-virtio-vga \
+              qemu-hw-usb-host \
+              qemu-hw-usb-smartcard \
+              qemu-hw-display-virtio-gpu \
+              qemu-hw-display-virtio-gpu-pci \
+              qemu-audio-alsa \
+              qemu-audio-dbus \
+              qemu-audio-jack \
+              qemu-audio-oss \
+              qemu-audio-pa \
+              qemu-audio-spice \
+              qemu-sgabios \
+              qemu-vgabios \
+              qemu-seabios \
+              qemu-chardev-spice \
+              qemu-ovmf-x86_64 \
+              qemu-ipxe \
+              qemu-block-curl \
+              qemu-block-dmg \
+              qemu-block-iscsi \
+              qemu-block-nfs \
+              qemu-block-rbd \
+              qemu-block-ssh \
               socat \
               tar \
               timezone \
               vim-small \
               virt-install \
-              shadow \
-  && zypper clean --all
-
-# FIXME: Modular daemons don't always respect /etc/libvirt/libvirtd.conf
-#RUN echo -e 'unix_sock_group = "libvirt"\nunix_sock_ro_perm = "0777"\nunix_sock_rw_perms = "0770"' >> /etc/libvirt/libvirtd.conf
+              shadow
+#!ArchExclusiveLine: x86_64
+RUN if [ $(uname -m) = "x86_64" ]; then zypper install --no-recommends -y sevctl; fi
+RUN zypper clean --all
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{virsh,virt-install,virt-install-demo.sh,label-install,label-uninstall,kvm-container-host-service}
-
-#RUN useradd -rmN -s /bin/bash -u 1000 -G libvirt tester
-#USER tester:libvirt
+RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,qemu-img,virt-install,virt-install-demo.sh,virsh,virt-scenario,virt-scenario-launch,virt-xml-validate}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

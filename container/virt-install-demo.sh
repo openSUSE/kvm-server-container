@@ -40,7 +40,7 @@ podman exec -ti ${CONTAINER_NAME} virt-install \
     --video vga \
     --console pty,target.type=virtio \
     --autoconsole text \
-    --network network=sle_network \
+    --network network=default_network \
     --rng /dev/urandom \
     --vcpu ${VCPU} --memory ${VMMEMORY} \
     --cloud-init \
@@ -54,7 +54,7 @@ podman exec -ti ${CONTAINER_NAME} virt-install \
 create_vm
 cat <<EOF 
  To connect to the VM in console mode:
-virsh.sh console ${VMNAME}
+virsh console ${VMNAME}
 
  To detach from the console:
 crtl + ]
