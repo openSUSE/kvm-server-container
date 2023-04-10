@@ -16,7 +16,6 @@ Documentation=https://libvirt.org
 [Service]
 Type=forking
 Environment=VIRTQEMUD_ARGS=""
-Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtqemud
 EnvironmentFile=-/etc/kvm-container.conf

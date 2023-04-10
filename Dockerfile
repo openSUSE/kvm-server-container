@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 # Define the tags for OBS and build script builds:
-#!BuildTag: %%TAGPREFIX%%/kvm:%%PKG_VERSION%%
-#!BuildTag: %%TAGPREFIX%%/kvm:%%PKG_VERSION%%-%RELEASE%
+#!BuildTag: %%TAGPREFIX%%/kvm-modular-libvirt:%%PKG_VERSION%%
+#!BuildTag: %%TAGPREFIX%%/kvm-modular-libvirt:%%PKG_VERSION%%-%RELEASE%
 
 FROM opensuse/tumbleweed
 
@@ -18,7 +18,7 @@ LABEL org.opencontainers.image.title="KVM container"
 LABEL org.opencontainers.image.description="Container for the KVM virtualization stack"
 LABEL org.opencontainers.image.created="%BUILDTIME%"
 LABEL org.opencontainers.image.version="%%PKG_VERSION%%.%RELEASE%"
-LABEL org.opencontainers.image.url="https://build.opensuse.org/package/show/SUSE:ALP:Workloads/kvm-container"
+LABEL org.opencontainers.image.url="https://build.opensuse.org/package/show/SUSE:ALP:Workloads/kvm-container-modular-libvirt"
 LABEL org.openbuildservice.disturl="%DISTURL%"
 LABEL org.opensuse.reference="%%REGISTRY%%/%%TAGPREFIX%%/kvm:%%PKG_VERSION%%.%RELEASE%"
 LABEL org.openbuildservice.disturl="%DISTURL%"

@@ -21,7 +21,7 @@ After=systemd-machined.service
 [Service]
 Type=notify
 NotifyAccess=all
-Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm:latest"
+Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm-modular-libvirt:latest"
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/kvm-container-meta
 EnvironmentFile=-/etc/kvm-container.conf
