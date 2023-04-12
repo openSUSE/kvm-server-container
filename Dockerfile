@@ -31,6 +31,7 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
+              libvirt-client \
               libvirt-client-qemu \
               libvirt-daemon-lock \
               libvirt-daemon-log \
