@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: MIT
 # Define the tags for OBS and build script builds:
+#!BuildTag: %%TAGPREFIX%%/kvm-modular-libvirt:latest
 #!BuildTag: %%TAGPREFIX%%/kvm-modular-libvirt:%%PKG_VERSION%%
 #!BuildTag: %%TAGPREFIX%%/kvm-modular-libvirt:%%PKG_VERSION%%-%RELEASE%
 
