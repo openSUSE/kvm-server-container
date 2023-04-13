@@ -53,19 +53,27 @@ This will first start the container, then will use the installed systemd units t
 ```
 
 # Remote VM management
+Ensure ssh access is configured between the client machine (running virsh or virt-manger locally) and the container host (where the kvm-container was deployed), then:
+```
+virsh -c "qemu+ssh://root@YOURHOST/system"
+```
+Optionally with an ssh key:
+```
+virsh -c "qemu+ssh://root@YOURHOST/system?keyfile=<local_path_to_private_key>"
+```
 
-## Using SSH
-TODO. However it is possible to ssh into the container's host machine and use `virsh` as is the case with local VM management
-<!---* The default password for the user `tester` use is : "opensuse"
-* The default port to access the container using ssh is `16022`
-```
-virsh -c qemu+ssh://tester@YOURHOST:16022/system
-```
--->
-## Using VNC - from the container's host machine
+# Remote VM access 
+
+## From the container's host machine (assuming the test VM and default VM network)
 ```
 # vncviewer 192.168.10.1:5950
 ```
+
+## From an external system
+* Ensure ssh access is configured between the client machine and the container host
+* Ensure the VM was created with a vnc server (i.e. `--graphics vnc,listen=0.0.0.0,port=5950` for the test VM)
+* Create a port-forwarded ssh tunnel: `ssh -NL 5900:127.0.0.1:5900 <ip_of_container_host>`
+* Establish vnc connection from client: `vncviewer 127.0.0.1::5900`
 
 # Stop the container
 ```
