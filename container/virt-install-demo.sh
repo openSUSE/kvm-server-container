@@ -3,7 +3,7 @@
 set -exo pipefail
 
 if [ -f /etc/kvm-container-functions ] ; then
-    #export CONF=/etc/kvm-container.conf
+    export CONF=/etc/kvm-container.conf
     . /etc/kvm-container-functions
 elif [ -f `pwd`/kvm-container-functions ]; then
     echo "Found local version of kvm-container-functions"
