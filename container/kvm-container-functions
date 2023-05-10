@@ -1,5 +1,6 @@
 #!/bin/sh
 
+if [ -z ${CONF} ]; then CONF=/etc/kvm-container.conf; fi
 if [ -z ${DEFAULT_CONF} ]; then DEFAULT_CONF=/etc/default/kvm-container; fi
 
 echo "using ${CONF} as configuration file"
