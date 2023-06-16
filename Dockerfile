@@ -65,7 +65,6 @@ RUN zypper install --no-recommends -y \
               qemu-audio-oss \
               qemu-audio-pa \
               qemu-audio-spice \
-              qemu-sgabios \
               qemu-vgabios \
               qemu-seabios \
               qemu-chardev-spice \
@@ -78,8 +77,6 @@ RUN zypper install --no-recommends -y \
               qemu-block-rbd \
               qemu-block-ssh \
               socat \
-              tar \
-              timezone \
               vim-small \
               virt-install \
               shadow
