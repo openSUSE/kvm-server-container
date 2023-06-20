@@ -29,7 +29,7 @@ VMNAME=${DOMAIN}_${RANDOMSTRING}
 #cp -v VM_config.ign ${DATA}
 
 create_vm() {
-podman exec -ti ${CONTAINER_NAME} virt-install \
+/usr/bin/virt-install \
     --connect qemu:///system \
     --import \
     --name ${VMNAME} \
