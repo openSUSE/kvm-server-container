@@ -11,16 +11,14 @@ MAINCONF=${CONTAINER}.conf
 NETCONF=libvirt/qemu/networks/default_network.xml
 QEMUCONF=libvirt/qemu.conf
 # BIN
-VIRSHSCRIPT=virsh
 VIRTINSTALLDEMO=virt-install-demo.sh
-VIRTINSTALL=virt-install
 HOSTSERVICE=${CONTAINER}-host-service
 
 echo "LABEL INSTALL"
 # Install/update scripts on the host 
 copy_to_usr_local_bin() {
    SCRIPT=$1
-   cp -av /container/${SCRIPT} /host/usr/local/bin/
+   cp -a /container/${SCRIPT} /host/usr/local/bin/
    # ensure the script is executable in bin dir
    chmod 755 /host/usr/local/bin/${SCRIPT}
 }
@@ -29,9 +27,9 @@ copy_to_usr_local_bin() {
 copy_to_etc() {
    CONF=$1
    if [ ! -e /host/etc/${CONF} ]; then
-   	cp -av /container/${CONF} /host/etc/${CONF}
+      cp -a /container/$(basename ${CONF}) /host/etc/${CONF}
    else
-   	echo "/host/etc/${CONF} already exist, will not update it"
+      echo "/host/etc/${CONF} already exist, will not update it"
    fi
 }
 
@@ -40,24 +38,17 @@ copy_systemd_units() {
    if [ ! -e /host/etc/systemd/system ]; then
       mkdir -p /host/etc/systemd/system
    fi
-   cp -av /container/systemd/* /host/etc/systemd/system/
+   cp -a /container/systemd/* /host/etc/systemd/system/
 }
 
 ## MAIN
+mkdir -p /host/etc/libvirt/qemu/networks
 copy_to_etc ${MAINCONF}
 copy_to_etc ${MAINFON}
-mkdir -p /host/etc/libvirt/qemu/networks
-cp -av /container/default_network.xml /host/etc/${NETCONF}
-cp -av /container/qemu.conf /host/etc/${QEMUCONF}
+copy_to_etc ${NETCONF}
+copy_to_etc ${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
-copy_to_usr_local_bin ${VIRSHSCRIPT}
-copy_to_usr_local_bin ${VIRTINSTALL}
 copy_to_usr_local_bin ${HOSTSERVICE}
-copy_to_usr_local_bin pvirsh
-copy_to_usr_local_bin qemu-img
-copy_to_usr_local_bin virt-scenario
-copy_to_usr_local_bin virt-scenario-launch
-copy_to_usr_local_bin virt-xml-validate
 copy_systemd_units
 
 # save the image path for the container that was used to run the install

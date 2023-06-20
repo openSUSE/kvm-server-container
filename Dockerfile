@@ -31,8 +31,6 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
-              libvirt-client \
-              libvirt-client-qemu \
               libvirt-daemon-lock \
               libvirt-daemon-log \
               libvirt-daemon-proxy \
@@ -45,13 +43,8 @@ RUN zypper install --no-recommends -y \
               libvirt-daemon-driver-secret \
               libvirt-daemon-driver-storage \
               libvirt-daemon-plugin-lockd \
-              netcat-openbsd \
               nftables \
-              python3-lxml \
-              python3-pvirsh \
-              python3-virt-scenario \
               qemu-hw-usb-redirect \
-              qemu-tools \
               qemu-x86 \
               qemu-hw-display-qxl \
               qemu-hw-display-virtio-vga \
@@ -77,8 +70,6 @@ RUN zypper install --no-recommends -y \
               qemu-block-rbd \
               qemu-block-ssh \
               socat \
-              vim-small \
-              virt-install \
               shadow
 #!ArchExclusiveLine: x86_64
 RUN if [ $(uname -m) = "x86_64" ]; then zypper install --no-recommends -y sevctl; fi
@@ -87,7 +78,7 @@ RUN zypper clean --all
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,pvirsh,qemu-img,virt-install,virt-install-demo.sh,virsh,virt-scenario,virt-scenario-launch,virt-xml-validate}
+RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,virt-install-demo.sh}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
