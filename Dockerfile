@@ -31,44 +31,24 @@ LABEL com.suse.release-stage="prototype"
 
 RUN zypper install --no-recommends -y \
               iptables \
-              libvirt-daemon-lock \
-              libvirt-daemon-log \
-              libvirt-daemon-proxy \
-              libvirt-daemon-config-network \
-              libvirt-daemon-config-nwfilter \
-              libvirt-daemon-driver-network \
-              libvirt-daemon-driver-nodedev \
-              libvirt-daemon-driver-nwfilter \
-              libvirt-daemon-driver-qemu \
-              libvirt-daemon-driver-secret \
-              libvirt-daemon-driver-storage \
-              libvirt-daemon-plugin-lockd \
+              libvirt-daemon-qemu \
               nftables \
-              qemu-hw-usb-redirect \
-              qemu-x86 \
-              qemu-hw-display-qxl \
-              qemu-hw-display-virtio-vga \
-              qemu-hw-usb-host \
-              qemu-hw-usb-smartcard \
-              qemu-hw-display-virtio-gpu \
-              qemu-hw-display-virtio-gpu-pci \
-              qemu-audio-alsa \
-              qemu-audio-dbus \
-              qemu-audio-jack \
-              qemu-audio-oss \
-              qemu-audio-pa \
               qemu-audio-spice \
-              qemu-vgabios \
-              qemu-seabios \
-              qemu-chardev-spice \
-              qemu-ovmf-x86_64 \
-              qemu-ipxe \
               qemu-block-curl \
-              qemu-block-dmg \
               qemu-block-iscsi \
               qemu-block-nfs \
-              qemu-block-rbd \
               qemu-block-ssh \
+              qemu-chardev-spice \
+              qemu-hw-usb-redirect \
+              qemu-hw-display-qxl \
+              qemu-hw-usb-host \
+              qemu-hw-display-virtio-gpu \
+              qemu-hw-display-virtio-gpu-pci \
+              qemu-ipxe \
+              qemu-ovmf-x86_64 \
+              qemu-seabios \
+              qemu-vgabios \
+              qemu-x86 \
               socat \
               shadow
 #!ArchExclusiveLine: x86_64
