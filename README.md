@@ -6,7 +6,6 @@ This container provides a kvm toolstack inside a container.
 currently based on the openSUSE Tumbleweed BCI image.
 Installs qemu, libvirt, virt-install and some additional tools
 * `kvm-container.conf` contains environment variables used during deployment
-* `kvm-container-functions` functions to check configuration
 * `kvm-container-host-service` is a script to deploy the kvm container and the libvirt daemons through their systemd services
 * `virsh` is the wrapper on the host to use virsh command
 * `virt-install-demo.sh` is a wrapper to quickly install a test VM
