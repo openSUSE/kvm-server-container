@@ -2,25 +2,30 @@
 
 set -exo pipefail
 
-if [ -f /etc/kvm-container-functions ] ; then
-    #export CONF=/etc/kvm-container.conf
-    . /etc/kvm-container-functions
-elif [ -f `pwd`/kvm-container-functions ]; then
-    echo "Found local version of kvm-container-functions"
-    export CONF="`pwd`/kvm-container.conf"
-    . "`pwd`/kvm-container-functions"
+if [ -z ${CONF} ]; then CONF=/etc/kvm-container.conf; fi
+if [ -z ${DEFAULT_CONF} ]; then DEFAULT_CONF=/etc/default/kvm-container; fi
+
+echo "using ${CONF} as configuration file"
+
+check_load_config_file() {
+if [ -f ${CONF} ]; then
+    source ${CONF}
 else
-    echo "! need /etc/kvm-container-functions; Exiting";
+    echo "!! ${CONF} not found in path !!"
     exit 1
 fi
-check_load_config_file
+if [ -e ${DEFAULT_CONF} ]; then
+       source ${DEFAULT_CONF}
+fi
+}
 
-
+get_disk_image() {
 if [ ! -f ${DATA}/${APPLIANCE}.${BACKING_FORMAT} ]; then
 	pushd ${DATA}
 	curl -L -o ${DATA}/${APPLIANCE}.${BACKING_FORMAT} ${APPLIANCE_MIRROR}/${APPLIANCE}.${BACKING_FORMAT}
 	popd
 fi
+}
 
 RANDOMSTRING=`openssl rand -hex 5`
 VMNAME=${DOMAIN}_${RANDOMSTRING}
@@ -51,6 +56,8 @@ create_vm() {
 #    --sysinfo type=fwcfg,entry0.name="opt/com.coreos/config",entry0.file="${BACKING_DIR}/VM_config.ign" \
 }
 
+check_load_config_file
+get_disk_image
 create_vm
 cat <<EOF 
  To connect to the VM in console mode:

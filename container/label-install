@@ -6,7 +6,6 @@ cd /
 PATH="/usr/bin:/usr/sbin"
 CONTAINER=kvm-container
 # ETC
-MAINFON=${CONTAINER}-functions
 MAINCONF=${CONTAINER}.conf
 NETCONF=libvirt/qemu/networks/default_network.xml
 QEMUCONF=libvirt/qemu.conf
@@ -44,7 +43,6 @@ copy_systemd_units() {
 ## MAIN
 mkdir -p /host/etc/libvirt/qemu/networks
 copy_to_etc ${MAINCONF}
-copy_to_etc ${MAINFON}
 copy_to_etc ${NETCONF}
 copy_to_etc ${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
