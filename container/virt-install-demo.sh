@@ -27,6 +27,10 @@ if [ ! -f ${DATA}/${APPLIANCE}.${BACKING_FORMAT} ]; then
 fi
 }
 
+start_default_network() {
+   /usr/bin/virsh net-list --inactive --name | grep -qF "default_network" && /usr/bin/virsh net-start default_network
+}
+
 RANDOMSTRING=`openssl rand -hex 5`
 VMNAME=${DOMAIN}_${RANDOMSTRING}
 
@@ -58,6 +62,7 @@ create_vm() {
 
 check_load_config_file
 get_disk_image
+start_default_network
 create_vm
 cat <<EOF 
  To connect to the VM in console mode:
