@@ -11,7 +11,7 @@ NETCONF=libvirt/qemu/networks/default_network.xml
 QEMUCONF=libvirt/qemu.conf
 # BIN
 VIRTINSTALLDEMO=virt-install-demo.sh
-HOSTSERVICE=${CONTAINER}-host-service
+MANAGE=${CONTAINER}-manage
 
 echo "LABEL INSTALL"
 # Install/update scripts on the host 
@@ -46,7 +46,7 @@ copy_to_etc ${MAINCONF}
 copy_to_etc ${NETCONF}
 copy_to_etc ${QEMUCONF}
 copy_to_usr_local_bin ${VIRTINSTALLDEMO}
-copy_to_usr_local_bin ${HOSTSERVICE}
+copy_to_usr_local_bin ${MANAGE}
 copy_systemd_units
 
 # save the image path for the container that was used to run the install
