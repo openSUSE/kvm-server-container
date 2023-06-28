@@ -59,6 +59,7 @@ if [[ "$COMMAND" = "enable" || "$COMMAND" = "restart" ]]; then
    if [[ "$CONTAINER_STATE" = "inactive" || "$COMMAND" = "restart" ]]; then
       echo -e "${Y}${SYM} ${N}Starting KVM Container"
       systemctl daemon-reload
+      systemctl enable kvm-container-meta.service
       systemctl restart kvm-container-meta.service && \
          echo -e "${G}${SYM} ${N}KVM Container Started" || \
          echo -e "${R}${SYM} ${N}KVM Container Failed to Start"
