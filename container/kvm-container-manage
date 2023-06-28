@@ -8,7 +8,7 @@ SYM='\xe2\x97\x8f'
 SUCCESS='\xe2\x9c\x85'
 FAIL='\xe2\x9d\x8c'
 COMMAND=$1
-LIBVIRTD_STATE=$(systemctl is-active libvirtd.service)
+LIBVIRTD_STATE=$(systemctl is-active libvirtd.socket)
 CONTAINER_STATE=$(systemctl is-active kvm-container-meta.service)
 
 if [ "$EUID" != 0 ]; then
