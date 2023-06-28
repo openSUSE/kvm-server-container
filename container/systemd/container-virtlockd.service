@@ -11,7 +11,7 @@ Documentation=https://libvirt.org
 
 [Service]
 Type=forking
-Environment=VIRTLOCKD_ARGS=
+Environment=VIRTLOCKD_ARGS=""
 Environment=CONTAINER_NAME="kvm-container"
 EnvironmentFile=-/etc/sysconfig/container-virtlockd
 EnvironmentFile=-/etc/kvm-container.conf
