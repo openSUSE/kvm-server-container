@@ -9,8 +9,6 @@ FROM opensuse/tumbleweed
 LABEL INSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-install"
 LABEL UNINSTALL="/usr/bin/podman run --env IMAGE=IMAGE --rm --privileged -v /:/host IMAGE /bin/bash /container/label-uninstall"
 LABEL UPDATE="/usr/bin/podman run --env IMAGE=IMAGE --replace --pull=newer --privileged -v /:/host --name kvm-container-update IMAGE /bin/bash /container/label-install"
-LABEL SERVICE-ENABLE="/usr/local/bin/kvm-container-host-service enable"
-LABEL SERVICE-DISABLE="/usr/local/bin/kvm-container-host-service disable"
 
 # Mandatory labels for the build service:
 #   https://en.opensuse.org/Building_derived_containers
@@ -58,7 +56,7 @@ RUN zypper clean --all
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 COPY container /container
-RUN chmod +x /container/{kvm-container-host-service,label-install,label-uninstall,virt-install-demo.sh}
+RUN chmod +x /container/{kvm-container-manage,label-install,label-uninstall,virt-install-demo.sh}
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 

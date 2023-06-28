@@ -27,12 +27,13 @@ EnvironmentFile=-/etc/sysconfig/kvm-container-meta
 EnvironmentFile=-/etc/kvm-container.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --init --detach --replace --rm --net=host --privileged --cgroupns=host -e IMAGE=${IMAGE} -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /etc/libvirt/qemu:/etc/libvirt/qemu -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /lib/modules:/lib/modules:ro -v /etc/machine-id:/etc/machine-id:ro --name ${CONTAINER_NAME} ${IMAGE} /usr/bin/sleep infinity
-ExecStop=-/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} pkill -fe -9 /usr/bin/qemu-system-x86_64 
+ExecStop=-/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} virsh stop --all
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/%n.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/%n.ctr-id
 KillMode=control-group
 Restart=on-failure
-TimeoutSec=70
+TimeoutStartSec=70
+TimeoutStopSec=120
 RestartSec=1
 
 [Install]
