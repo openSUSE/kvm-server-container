@@ -7,9 +7,7 @@ currently based on the openSUSE Tumbleweed BCI image.
 Installs qemu, libvirt, virt-install and some additional tools
 * `kvm-container.conf` contains environment variables used during deployment
 * `kvm-container-manage` is a script to manage the deployment of the kvm container and the required libvirt services
-* `virsh` is the wrapper on the host to use virsh command
-* `virt-install-demo.sh` is a wrapper to quickly install a test VM
-* `virt-install` is the wrapper on the host to virt-install
+* `virt-install-demo.sh` is a demo script to quickly install a test VM
 * `default_network.xml` contains a deafult network configuration for the container and its workloads
 
 # Current deployments
@@ -41,7 +39,7 @@ If the container is already running, only the services will be restarted
 ```
 # kvm-container-manage verify
 ```
-Verify successful deployment of the container and all required services
+This will verify successful deployment of the container and all required services
 
 ## Install the test VM
 
@@ -50,10 +48,9 @@ Verify successful deployment of the container and all required services
 ```
 
 # Local VM management
-`virsh` is passed through to the container so it can be used locally just as if libvirt were running on the host
-```
-# virsh list --all
-```
+Any virtualization client packages can be installed on the host and should work out of the box
+
+Alternatively, refer to the [KVM Client Container](https://github.com/Fuzzy-Math/kvm-client-container) for containerized client tooling
 
 # Remote VM management
 Ensure ssh access is configured between the client machine (running virsh or virt-manger locally) and the container host (where the kvm-container was deployed), then:
