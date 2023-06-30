@@ -28,14 +28,12 @@ For each of the commands below, replace `<registry_path>` with one of the follow
 ```
 > Note: Ensure the value of `IMAGE` in `/etc/kvm-container.conf` is the same as the registry path used for the installation
 
-> Note: systemd units are currently installed to the host administrator's systemd directory (`/etc/systemd/system/`) since the root filesystem is mounted read-only on an ALP system
-
 > Note: All commands to be run as root
 
 ## Deploy the container
 
 ```
-# /usr/local/bin/kvm-container-manage enable
+# kvm-container-manage enable
 ```
 This will first start the container, then will deploy the libvirt services inside the container.
 If the container is already running, only the services will be restarted
@@ -43,7 +41,7 @@ If the container is already running, only the services will be restarted
 ## Verify the deployment
 
 ```
-# /usr/local/bin/kvm-container-manage verify
+# kvm-container-manage verify
 ```
 Verify successful deployment of the container and all required services
 
@@ -54,7 +52,7 @@ Verify successful deployment of the container and all required services
 ```
 
 # Local VM management
-`/usr/local/bin/virsh` is passed through to the container so it can be used locally just as if libvirt were running on the host
+`virsh` is passed through to the container so it can be used locally just as if libvirt were running on the host
 ```
 # virsh list --all
 ```
@@ -85,20 +83,20 @@ virsh -c "qemu+ssh://root@YOURHOST/system?keyfile=<local_path_to_private_key>"
 # Restart the container
 
 ```
-# /usr/local/bin/kvm-container-manage restart
+# kvm-container-manage restart
 ```
 A fresh deployment of the container and all required services
 If the container is already running, all running VMs will be stopped and the container will be restarted
  
 # Stop the container
 ```
-# /usr/local/bin/kvm-container-manage stop
+# kvm-container-manage stop
 ```
 This will stop all services, stop the container, and stop any running VMs. The container, along with the services, will be started again upon the next host boot or [Restart](README.md#restart-the-container) the container as desired
 > Note using `podman stop` is not advised. Since the container lifecycle is managed by systemd, this will only cause the container to re-exec but none of the container's libvirt services will be restarted
 
 # Update the container
-First stop the container with `/usr/local/bin/kvm-container-manage stop`, then: 
+First stop the container with `kvm-container-manage stop`, then: 
 ```
 # sudo podman container runlabel update <registry_path>
 ```
@@ -106,7 +104,7 @@ This will update to the latest container image including updated virtualization 
 
 # Disable the container
 ```
-# /usr/local/bin/kvm-container-manage disable
+# kvm-container-manage disable
 ```
 This will stop all libvirt service in the container, stop the container, and disable the service from running on the next reboot. Nothing is uninstalled from the host. [Redeploy](README.md#deploy-the-container) as desired. 
 

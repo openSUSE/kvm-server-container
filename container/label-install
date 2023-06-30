@@ -13,17 +13,22 @@ QEMUCONF=libvirt/qemu.conf
 VIRTINSTALLDEMO=virt-install-demo.sh
 MANAGE=${CONTAINER}-manage
 
-echo "LABEL INSTALL"
+# Check for read only root filesystem
+is_read_only() {
+   [[ -n $(awk '$2 ~ /\/host$/ && $4 ~ /(^|,)ro($|,)/' /host/proc/mounts) ]]
+}
+
 # Install/update scripts on the host 
-copy_to_usr_local_bin() {
+BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
+install_bin() {
    SCRIPT=$1
-   cp -a /container/${SCRIPT} /host/usr/local/bin/
+   cp -a /container/${SCRIPT} ${BIN_INSTALL_PATH}/
    # ensure the script is executable in bin dir
-   chmod 755 /host/usr/local/bin/${SCRIPT}
+   chmod 755 ${BIN_INSTALL_PATH}/${SCRIPT}
 }
 
 # Install but don't update config files
-copy_to_etc() {
+install_config() {
    CONF=$1
    if [ ! -e /host/etc/${CONF} ]; then
       cp -a /container/$(basename ${CONF}) /host/etc/${CONF}
@@ -32,22 +37,24 @@ copy_to_etc() {
    fi
 }
 
-copy_systemd_units() {
+SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
+install_units() {
    # Create systemd directory if not present
-   if [ ! -e /host/etc/systemd/system ]; then
-      mkdir -p /host/etc/systemd/system
+   if [ ! -e ${SYSTEMD_INSTALL_PATH} ]; then
+      mkdir -p ${SYSTEMD_INSTALL_PATH}
    fi
-   cp -a /container/systemd/* /host/etc/systemd/system/
+   cp -a /container/systemd/* ${SYSTEMD_INSTALL_PATH}/
 }
 
 ## MAIN
+echo "LABEL INSTALL"
 mkdir -p /host/etc/libvirt/qemu/networks
-copy_to_etc ${MAINCONF}
-copy_to_etc ${NETCONF}
-copy_to_etc ${QEMUCONF}
-copy_to_usr_local_bin ${VIRTINSTALLDEMO}
-copy_to_usr_local_bin ${MANAGE}
-copy_systemd_units
+install_config ${MAINCONF}
+install_config ${NETCONF}
+install_config ${QEMUCONF}
+install_bin ${VIRTINSTALLDEMO}
+install_bin ${MANAGE}
+install_units
 
 # save the image path for the container that was used to run the install
 # as the default container image to use for the libvirtd service. The
