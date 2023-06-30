@@ -26,8 +26,6 @@ For each of the commands below, replace `<registry_path>` with one of the follow
 ```
 # podman container runlabel install <registry_path>:latest
 ```
-> Note: Ensure the value of `IMAGE` in `/etc/kvm-container.conf` is the same as the registry path used for the installation
-
 > Note: All commands to be run as root
 
 ## Deploy the container

@@ -59,7 +59,12 @@ install_units
 # save the image path for the container that was used to run the install
 # as the default container image to use for the libvirtd service. The
 # image path to use should be available in the IMAGE environment variable.
-echo "IMAGE=${IMAGE}" > /host/etc/default/${CONTAINER}
+INSTALL_IMAGE=${IMAGE}
+source /host/etc/${MAINCONF}
+# IMAGE is now exported from /host/etc/${MAINCONF} and potentially different
+if [ "${INSTALL_IMAGE}" != "${IMAGE}" ]; then
+   sed -i "s|^IMAGE=.*$|DEFAULT_IMAGE=${IMAGE}\nIMAGE=${INSTALL_IMAGE}|" host/etc/${MAINCONF}
+fi
 
 # FIXME: Image location not present on host, is there a better way to do this?
 mkdir -p /host/var/lib/libvirt/images
