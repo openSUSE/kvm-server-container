@@ -27,6 +27,9 @@ fi
 BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
 SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
 
+# First disable the container and services
+${BIN_INSTALL_PATH}/kvm-container-manage disable
+
 # removing installed files
 echo "LABEL UNINSTALL: Removing all files"
 delete_file /host/etc ${CONTAINER}.conf 
