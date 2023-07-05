@@ -121,6 +121,10 @@ elif [[ "$CONTAINER_STATE" = "active" && ( "$COMMAND" = "stop" || "$COMMAND" = "
       echo -e "${G}${SYM} ${N}KVM Container Stopped" || \
       echo -e "${R}${SYM} ${N}KVM Container Failed to Stop"
 
+# No-op stop and disable if the container has already been stopped. Needed for uninstall script
+elif [[ "$CONTAINER_STATE" != "active" && ( "$COMMAND" = "stop" || "$COMMAND" = "disable" ) ]]; then
+   echo "KVM Container already stopped. Nothing to do"
+
 elif [ "$COMMAND" = "verify" ]; then
    # Account for libvirt services plus kvm-container-meta service
    count=-1
