@@ -53,10 +53,8 @@ RUN zypper install --no-recommends -y \
 RUN if [ $(uname -m) = "x86_64" ]; then zypper install --no-recommends -y sevctl; fi
 RUN zypper clean --all
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 COPY container /container
 RUN chmod +x /container/{kvm-container-manage,label-install,label-uninstall,virt-install-demo.sh}
 
-ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "echo", "Running the KVM container directly is not supported. Please refer to instructions at https://github.com/Fuzzy-Math/kvm-container for instructions on how to deploy the kvm container" ]
 
