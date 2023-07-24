@@ -2,7 +2,7 @@ pr_workflow:
   steps:
     - branch_package:
         source_project: Virtualization
-        source_package: kvm-container-modular-libvirt
+        source_package: kvm-server-container
         target_project: Virtualization:Staging:PRs
   filters:
     event: pull_request
@@ -10,10 +10,10 @@ rebuild_workflow:
   steps:
     - trigger_services:
         project: Virtualization
-        package: kvm-container-modular-libvirt
+        package: kvm-server-container
     - rebuild_package:
         project: Virtualization
-        package: kvm-container-modular-libvirt
+        package: kvm-server-container
   filters:
     event: push
     branches:

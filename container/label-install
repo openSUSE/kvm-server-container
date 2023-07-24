@@ -4,7 +4,7 @@
 
 cd /
 PATH="/usr/bin:/usr/sbin"
-CONTAINER=kvm-container
+CONTAINER=kvm-server
 # ETC
 MAINCONF=${CONTAINER}.conf
 NETCONF=libvirt/qemu/networks/default_network.xml

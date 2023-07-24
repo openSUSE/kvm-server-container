@@ -11,16 +11,16 @@ After=ip6tables.service
 After=dbus.service
 After=apparmor.service
 After=local-fs.target
-After=kvm-container-meta.service
-BindsTo=kvm-container-meta.service
+After=kvm-server-container.service
+BindsTo=kvm-server-container.service
 Documentation=man:virtnetworkd(8)
 Documentation=https://libvirt.org
 
 [Service]
 Type=forking
 Environment=VIRTNETWORKD_ARGS=""
-Environment=CONTAINER_NAME="kvm-container"
-EnvironmentFile=-/etc/kvm-container.conf
+Environment=CONTAINER_NAME="kvm-server"
+EnvironmentFile=-/etc/kvm-server.conf
 EnvironmentFile=-/etc/sysconfig/container-virtnetworkd
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtnetworkd $VIRTNETWORKD_ARGS
 Restart=on-failure

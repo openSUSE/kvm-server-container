@@ -9,7 +9,7 @@ SUCCESS='\xe2\x9c\x85'
 FAIL='\xe2\x9d\x8c'
 COMMAND=$1
 LIBVIRTD_STATE=$(systemctl is-active libvirtd.socket)
-CONTAINER_STATE=$(systemctl is-active kvm-container-meta.service)
+CONTAINER_STATE=$(systemctl is-active kvm-server-container.service)
 
 if [ "$EUID" != 0 ]; then
    sudo -S "$0" "$@"
@@ -19,24 +19,24 @@ fi
 show_help() {
    cat <<EOF
 
-   Usage: kvm-container-manage <command>
+   Usage: kvm-server-manage <command>
 
    Commands:
       enable:  Disables and stops monolithic libvirtd service if present
-               Starts the KVM Container only if it isn't already running
+               Starts the KVM server container only if it isn't already running
                Enables and (re)starts the modular libvirt services
    
       restart: Performs the same actions as 'enable' but will also restart 
-                  the KVM Container if active
+                  the KVM server container if active
                Warning: Running VMs will be stopped before the container is restarted
       
       disable: Disables and stops the modular libvirt daemons
-               Disables and stops the KVM Container
+               Disables and stops the KVM server container
       
       stop:    Stops the KVM Container
                Will be started again on next host boot unless 'disable' is called
       
-      verify:  Prints whether the KVM Container and all required services are currently active
+      verify:  Prints whether the KVM server container and all required services are currently active
                Otherwise, prints inactive services that need to be addressed
       
       help:    Prints this help message
@@ -55,12 +55,12 @@ if [[ "$COMMAND" = "enable" || "$COMMAND" = "restart" ]]; then
       systemctl disable libvirtd{,-ro,-admin,-tcp,-tls}.socket
    fi
 
-   # (Re)Start the kvm-container
+   # (Re)Start the kvm server container
    if [[ "$CONTAINER_STATE" = "inactive" || "$COMMAND" = "restart" ]]; then
       echo -e "${Y}${SYM} ${N}Starting KVM Container"
       systemctl daemon-reload
-      systemctl enable kvm-container-meta.service
-      systemctl restart kvm-container-meta.service && \
+      systemctl enable kvm-server-container.service
+      systemctl restart kvm-server-container.service && \
          echo -e "${G}${SYM} ${N}KVM Container Started" || \
          echo -e "${R}${SYM} ${N}KVM Container Failed to Start"
    fi
@@ -112,12 +112,12 @@ elif [[ "$CONTAINER_STATE" = "active" && ( "$COMMAND" = "stop" || "$COMMAND" = "
       done
 
       # Disable container service
-      systemctl disable kvm-container-meta.service
+      systemctl disable kvm-server-container.service
    fi
 
-   # Stop the kvm-container. Stop the container for both "stop" and "disable"
+   # Stop the kvm server container. Stop the container for both "stop" and "disable"
    echo -e "${Y}${SYM} ${N}Stopping KVM Container"
-   systemctl stop kvm-container-meta.service && \
+   systemctl stop kvm-server-container.service && \
       echo -e "${G}${SYM} ${N}KVM Container Stopped" || \
       echo -e "${R}${SYM} ${N}KVM Container Failed to Stop"
 
@@ -126,14 +126,14 @@ elif [[ "$CONTAINER_STATE" != "active" && ( "$COMMAND" = "stop" || "$COMMAND" = 
    echo "KVM Container already stopped. Nothing to do"
 
 elif [ "$COMMAND" = "verify" ]; then
-   # Account for libvirt services plus kvm-container-meta service
+   # Account for libvirt services plus kvm-server-container service
    count=-1
    daemons=(qemu network nodedev nwfilter proxy secret storage log lock)
 
-   if [ "$(systemctl is-active kvm-container-meta.service)" = "active" ]; then
+   if [ "$(systemctl is-active kvm-server-container.service)" = "active" ]; then
       let "count++"
    else
-      echo -e "${R}${SYM} ${N}kvm-container-meta.service is not active. See 'journalctl -xeu kvm-container-meta.service' for more info"
+      echo -e "${R}${SYM} ${N}kvm-server-container.service is not active. See 'journalctl -xeu kvm-server-container.service' for more info"
    fi
 
    for drv in "${daemons[@]}"
@@ -153,6 +153,6 @@ elif [ "$COMMAND" = "verify" ]; then
 elif [[ "$COMMAND" = "help" || "$COMMAND" = "--help" ]]; then
    show_help
 else
-   echo "kvm-container-manage: Unknown command \"$COMMAND\""
+   echo "kvm-server-manage: Unknown command \"$COMMAND\""
    show_help
 fi

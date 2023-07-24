@@ -4,17 +4,17 @@ Conflicts=libvirtd.service virtlogd.service
 Requires=virtlogd.socket
 Requires=virtlogd-admin.socket
 Before=container-virtqemud.service
-After=kvm-container-meta.service
-BindsTo=kvm-container-meta.service
+After=kvm-server-container.service
+BindsTo=kvm-server-container.service
 Documentation=man:virtlogd(8)
 Documentation=https://libvirt.org
 
 [Service]
 Type=forking
 Environment=VIRTLOGD_ARGS=""
-Environment=CONTAINER_NAME="kvm-container"
+Environment=CONTAINER_NAME="kvm-server"
 EnvironmentFile=-/etc/sysconfig/container-virtlogd
-EnvironmentFile=-/etc/kvm-container.conf
+EnvironmentFile=-/etc/kvm-server.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtlogd $VIRTLOGD_ARGS
 Restart=on-failure
 RestartSec=2
