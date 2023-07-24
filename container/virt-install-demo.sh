@@ -2,8 +2,8 @@
 
 set -exo pipefail
 
-if [ -z ${CONF} ]; then CONF=/etc/kvm-container.conf; fi
-if [ -z ${DEFAULT_CONF} ]; then DEFAULT_CONF=/etc/default/kvm-container; fi
+if [ -z ${CONF} ]; then CONF=/etc/kvm-server.conf; fi
+if [ -z ${DEFAULT_CONF} ]; then DEFAULT_CONF=/etc/default/kvm-server; fi
 
 echo "using ${CONF} as configuration file"
 

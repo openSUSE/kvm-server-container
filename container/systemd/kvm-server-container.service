@@ -21,10 +21,10 @@ After=systemd-machined.service
 [Service]
 Type=notify
 NotifyAccess=all
-Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm-modular-libvirt:latest"
-Environment=CONTAINER_NAME="kvm-container"
-EnvironmentFile=-/etc/sysconfig/kvm-container-meta
-EnvironmentFile=-/etc/kvm-container.conf
+Environment=IMAGE="registry.opensuse.org/suse/alp/workloads/tumbleweed_containerfiles/suse/alp/workloads/kvm-server:latest"
+Environment=CONTAINER_NAME="kvm-server"
+EnvironmentFile=-/etc/sysconfig/kvm-server-container
+EnvironmentFile=-/etc/kvm-server.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --init --detach --replace --rm --net=host --privileged --cgroupns=host -e IMAGE=${IMAGE} -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /etc/libvirt/qemu:/etc/libvirt/qemu -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /lib/modules:/lib/modules:ro -v /etc/machine-id:/etc/machine-id:ro --name ${CONTAINER_NAME} ${IMAGE} /usr/bin/sleep infinity
 ExecStop=-/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} virsh stop --all

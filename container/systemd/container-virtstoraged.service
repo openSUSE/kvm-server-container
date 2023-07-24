@@ -10,17 +10,17 @@ After=iscsid.service
 After=apparmor.service
 After=local-fs.target
 After=remote-fs.target
-After=kvm-container-meta.service
-BindsTo=kvm-container-meta.service
+After=kvm-server-container.service
+BindsTo=kvm-server-container.service
 Documentation=man:virtstoraged(8)
 Documentation=https://libvirt.org
 
 [Service]
 Type=forking
 Environment=VIRTSTORAGED_ARGS=""
-Environment=CONTAINER_NAME="kvm-container"
+Environment=CONTAINER_NAME="kvm-server"
 EnvironmentFile=-/etc/sysconfig/container-virtstoraged
-EnvironmentFile=-/etc/kvm-container.conf
+EnvironmentFile=-/etc/kvm-server.conf
 ExecStart=/usr/bin/podman exec --detach --privileged ${CONTAINER_NAME} /usr/sbin/virtstoraged $VIRTSTORAGED_ARGS
 Restart=on-failure
 RestartSec=2
