@@ -28,6 +28,7 @@ LABEL com.suse.release-stage="prototype"
 # endlabelprefix
 
 RUN zypper install --no-recommends -y \
+              gawk \
               iptables \
               libvirt-daemon-qemu \
               nftables \
