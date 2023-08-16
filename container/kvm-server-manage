@@ -66,6 +66,16 @@ if [[ "$COMMAND" = "enable" || "$COMMAND" = "restart" ]]; then
    fi
 
    # Enable modular libvirt daemons on the host
+   for drv in log lock
+   do
+      systemctl enable container-virt${drv}d.service
+      systemctl enable virt${drv}d{,-admin}.socket
+      systemctl restart virt${drv}d{,-admin}.socket
+      systemctl restart container-virt${drv}d.service && \
+         echo -e "${G}${SYM} ${N}Started container-virt${drv}d.service" || \
+         echo -e "${R}${SYM} ${N}Failed to start container-virt${drv}d.service"
+   done
+
    for drv in qemu network nodedev nwfilter proxy secret storage
    do
       systemctl unmask container-virt${drv}d.service
@@ -73,16 +83,6 @@ if [[ "$COMMAND" = "enable" || "$COMMAND" = "restart" ]]; then
       systemctl enable container-virt${drv}d.service
       systemctl enable virt${drv}d{,-ro,-admin}.socket
       systemctl restart virt${drv}d{,-ro,-admin}.socket
-      systemctl restart container-virt${drv}d.service && \
-         echo -e "${G}${SYM} ${N}Started container-virt${drv}d.service" || \
-         echo -e "${R}${SYM} ${N}Failed to start container-virt${drv}d.service"
-   done
-
-   for drv in log lock
-   do
-      systemctl enable container-virt${drv}d.service
-      systemctl enable virt${drv}d{,-admin}.socket
-      systemctl restart virt${drv}d{,-admin}.socket
       systemctl restart container-virt${drv}d.service && \
          echo -e "${G}${SYM} ${N}Started container-virt${drv}d.service" || \
          echo -e "${R}${SYM} ${N}Failed to start container-virt${drv}d.service"
