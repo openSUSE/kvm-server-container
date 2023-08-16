@@ -4,8 +4,6 @@
 # container.
 
 CONTAINER=kvm-server
-cd /
-PATH="/usr/bin:/usr/sbin"
 
 # Check for read only root filesystem
 is_read_only() {
@@ -26,9 +24,6 @@ fi
 
 BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
 SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
-
-# First disable the container and services
-${BIN_INSTALL_PATH}/kvm-server-manage disable
 
 # removing installed files
 echo "LABEL UNINSTALL: Removing all files"
@@ -59,3 +54,7 @@ delete_file ${SYSTEMD_INSTALL_PATH} libvirtd-admin.socket
 delete_file ${SYSTEMD_INSTALL_PATH} libvirtd-tls.socket
 delete_file ${SYSTEMD_INSTALL_PATH} libvirtd-tcp.socket
 delete_file ${SYSTEMD_INSTALL_PATH} kvm-server-container.service
+
+# Remove installed libvirt configs
+/usr/bin/rm -rf /host/etc/libvirt
+

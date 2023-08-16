@@ -2,8 +2,6 @@
 # This is the install script for kvm when run in a privileged
 # container.
 
-cd /
-PATH="/usr/bin:/usr/sbin"
 CONTAINER=kvm-server
 # ETC
 MAINCONF=${CONTAINER}.conf
@@ -20,6 +18,15 @@ is_read_only() {
 
 # Install/update scripts on the host 
 BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
+SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
+
+install_common() {
+   mkdir -p /host/etc/libvirt
+   mkdir -p /host/var/lib/libvirt/images
+   mkdir -p /host/etc/libvirt/qemu/networks
+   mkdir -p ${SYSTEMD_INSTALL_PATH}
+}
+
 install_bin() {
    SCRIPT=$1
    cp -a /container/${SCRIPT} ${BIN_INSTALL_PATH}/
@@ -37,18 +44,13 @@ install_config() {
    fi
 }
 
-SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
 install_units() {
-   # Create systemd directory if not present
-   if [ ! -e ${SYSTEMD_INSTALL_PATH} ]; then
-      mkdir -p ${SYSTEMD_INSTALL_PATH}
-   fi
    cp -a /container/systemd/* ${SYSTEMD_INSTALL_PATH}/
 }
 
 ## MAIN
-echo "LABEL INSTALL"
-mkdir -p /host/etc/libvirt/qemu/networks
+echo "Running Install Label"
+install_common
 install_config ${MAINCONF}
 install_config ${NETCONF}
 install_config ${QEMUCONF}
@@ -66,6 +68,3 @@ if [ "${INSTALL_IMAGE}" != "${IMAGE}" ]; then
    sed -i "s|^IMAGE=.*$|DEFAULT_IMAGE=${IMAGE}\nIMAGE=${INSTALL_IMAGE}|" host/etc/${MAINCONF}
 fi
 
-# FIXME: Image location not present on host, is there a better way to do this?
-mkdir -p /host/var/lib/libvirt/images
-cd /host/usr/local/bin/
