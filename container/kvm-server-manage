@@ -56,7 +56,7 @@ if [[ "$COMMAND" = "enable" || "$COMMAND" = "restart" ]]; then
    fi
 
    # (Re)Start the kvm server container
-   if [[ "$CONTAINER_STATE" = "inactive" || "$COMMAND" = "restart" ]]; then
+   if [[ "$CONTAINER_STATE" != "active" || "$COMMAND" = "restart" ]]; then
       echo -e "${Y}${SYM} ${N}Starting KVM Container"
       systemctl daemon-reload
       systemctl enable kvm-server-container.service
