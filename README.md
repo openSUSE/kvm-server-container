@@ -72,8 +72,8 @@ virsh -c "qemu+ssh://root@YOURHOST/system?keyfile=<local_path_to_private_key>"
 ## From an external system
 * Ensure ssh access is configured between the client machine and the container host
 * Ensure the VM was created with a vnc server (i.e. `--graphics vnc,listen=0.0.0.0,port=5950` for the test VM)
-* Create a port-forwarded ssh tunnel: `ssh -NL 5900:127.0.0.1:5900 <ip_of_container_host>`
-* Establish vnc connection from client: `vncviewer 127.0.0.1::5900`
+* Create a port-forwarded ssh tunnel: `ssh -NL 5900:127.0.0.1:<vnc_host_port> <ip_of_container_host>`
+* Establish vnc connection from client: `vncviewer 127.0.0.1:5900`
 
 # Restart the container
 
