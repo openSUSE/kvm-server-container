@@ -24,6 +24,7 @@ install_common() {
    mkdir -p /host/etc/libvirt
    mkdir -p /host/var/lib/libvirt/images
    mkdir -p /host/etc/libvirt/qemu/networks
+   mkdir -p /host/usr/share/qemu
    mkdir -p ${SYSTEMD_INSTALL_PATH}
 }
 
@@ -48,6 +49,10 @@ install_units() {
    cp -a /container/systemd/* ${SYSTEMD_INSTALL_PATH}/
 }
 
+install_firmware() {
+   cp -ra /usr/share/qemu/* /host/usr/share/qemu/
+}
+
 ## MAIN
 echo "Running Install Label"
 install_common
@@ -57,6 +62,7 @@ install_config ${QEMUCONF}
 install_bin ${VIRTINSTALLDEMO}
 install_bin ${MANAGE}
 install_units
+install_firmware
 
 # save the image path for the container that was used to run the install
 # as the default container image to use for the libvirtd service. The

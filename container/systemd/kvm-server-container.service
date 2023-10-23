@@ -27,7 +27,7 @@ EnvironmentFile=-/etc/sysconfig/kvm-server-container
 EnvironmentFile=-/etc/kvm-server.conf
 ExecStartPre=/bin/rm -f %t/%n.pid %t/%n.ctr-id
 ExecStartPre=/usr/bin/mkdir -p /run/libvirt
-ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --init --detach --replace --rm --net=host --privileged --cgroupns=host -e IMAGE=${IMAGE} -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /var/lib/libvirt/images:/var/lib/libvirt/images --name ${CONTAINER_NAME} ${IMAGE} /usr/bin/sleep infinity
+ExecStart=/usr/bin/podman run --conmon-pidfile %t/%n.pid --cidfile %t/%n.ctr-id --cgroups=no-conmon --sdnotify=conmon --init --detach --replace --rm --net=host --privileged --cgroupns=host -e IMAGE=${IMAGE} -v /:/host -v /run/libvirt:/run/libvirt -v /etc/libvirt:/etc/libvirt -v /var/lib/libvirt/images:/var/lib/libvirt/images -v /usr/share/qemu:/usr/share/qemu --name ${CONTAINER_NAME} ${IMAGE} /usr/bin/sleep infinity
 ExecStop=-+virsh -c qemu:///system stop --all
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/%n.ctr-id -t 10
 ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/%n.ctr-id
