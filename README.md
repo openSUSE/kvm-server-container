@@ -55,25 +55,41 @@ Alternatively, refer to the [KVM Client Container](https://github.com/openSUSE/k
 # Remote VM management
 Ensure ssh access is configured between the client machine (running virsh or virt-manager locally) and the container host (where the kvm server container was deployed), then:
 ```
-virsh -c "qemu+ssh://root@YOURHOST/system"
+virsh -c "qemu+ssh://root@CONTAINER_HOST/system"
 ```
 Optionally with an ssh key:
 ```
-virsh -c "qemu+ssh://root@YOURHOST/system?keyfile=<local_path_to_private_key>"
+virsh -c "qemu+ssh://root@CONTAINER_HOST/system?keyfile=<local_path_to_private_key>"
 ```
 
-# Remote VM access 
-
-## From the container's host machine (assuming the test VM and default VM network)
+# VM access 
+Ensure a serial console or VNC server is configured with `virt-install` during installation or by modifying the libvirt xml with `virsh edit`
+## Attach via serial console
 ```
-# vncviewer 192.168.10.1:5950
+# virsh console <vm_name>
 ```
 
-## From an external system
-* Ensure ssh access is configured between the client machine and the container host
-* Ensure the VM was created with a vnc server (i.e. `--graphics vnc,listen=0.0.0.0,port=5950` for the test VM)
-* Create a port-forwarded ssh tunnel: `ssh -NL 5900:127.0.0.1:<vnc_host_port> <ip_of_container_host>`
-* Establish vnc connection from client: `vncviewer 127.0.0.1:5900`
+## Attach via VNC
+
+### Local VNC client
+* Find configured VNC port: `virsh vncdisplay <vm_name>`
+* Establish VNC connection: `vncviewer localhost:<vnc_port>`
+
+### Remote VNC client
+* Ensure the VM was created with a VNC server which is configured to listen on `0.0.0.0` or any of the host's external-facing IPs, preferably with a password
+    * `virt-install ... --graphics vnc,listen=0.0.0.0,port=5950,password=<vnc_password>`
+* Find configured VNC port: `virsh vncdisplay <vm_name>`
+* Establish VNC connection from client: `vncviewer <host_ip>:<vnc_host_port>` 
+
+### Remote VNC client over SSH
+* Ensure SSH access is configured between the client machine and the container host
+* Ensure the VM was created with a VNC server which is configured to only listen on `localhost`
+    * `virt-install ... --graphics vnc,listen=127.0.0.1,port=5950`
+* Find configured VNC port: `virsh -c "qemu+ssh://root@CONTAINER_HOST/system" vncdisplay <vm_name>`
+* Create a port-forwarded ssh tunnel: 
+`ssh -NL <vnc_client_port>:127.0.0.1:<vnc_host_port> <ip_of_container_host>`
+    * If the client also has a VNC server running on port `5900`, then `<vnc_client_port>` must be port 5901 and above
+* Establish VNC connection from client: `vncviewer 127.0.0.1:<vnc_client_port>`
 
 # Restart the container
 
