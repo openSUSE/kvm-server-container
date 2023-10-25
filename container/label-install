@@ -19,12 +19,13 @@ is_read_only() {
 # Install/update scripts on the host 
 BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
 SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
+QEMU_FIRM_PATH=$(is_read_only && echo "/host/usr/local/share/qemu" || echo "/host/usr/share/qemu")
 
 install_common() {
    mkdir -p /host/etc/libvirt
    mkdir -p /host/var/lib/libvirt/images
    mkdir -p /host/etc/libvirt/qemu/networks
-   mkdir -p /host/usr/share/qemu
+   mkdir -p ${QEMU_FIRM_PATH}
    mkdir -p ${SYSTEMD_INSTALL_PATH}
 }
 
@@ -49,8 +50,11 @@ install_units() {
    cp -a /container/systemd/* ${SYSTEMD_INSTALL_PATH}/
 }
 
+# "Export" the QEMU firmware directory for use by the kvm-client container
+# It would be nice to put this in a named volume but that would involve calling
+# podman from inside the container
 install_firmware() {
-   cp -ra /usr/share/qemu/* /host/usr/share/qemu/
+   cp -ra /usr/share/qemu/* ${QEMU_FIRM_PATH}/
 }
 
 ## MAIN

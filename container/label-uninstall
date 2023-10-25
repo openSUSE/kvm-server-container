@@ -24,6 +24,7 @@ fi
 
 BIN_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/bin" || echo "/host/usr/bin")
 SYSTEMD_INSTALL_PATH=$(is_read_only && echo "/host/usr/local/lib/systemd/system" || echo "/host/usr/lib/systemd/system")
+QEMU_FIRM_PATH=$(is_read_only && echo "/host/usr/local/share/qemu" || echo "/host/usr/share/qemu")
 
 # removing installed files
 echo "LABEL UNINSTALL: Removing all files"
@@ -58,4 +59,4 @@ delete_file ${SYSTEMD_INSTALL_PATH} kvm-server-container.service
 # Remove installed libvirt configs
 /usr/bin/rm -rf /host/etc/libvirt
 # Remove qemu data dir
-/usr/bin/rm -rf /host/usr/share/qemu
+/usr/bin/rm -rf ${QEMU_FIRM_PATH}
